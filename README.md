@@ -1,6 +1,6 @@
 # EmailConnectorMigrationUtility
 
-This utility will help to migrate onle data from [Email with template](https://marketplace.mendix.com/link/component/259) to new [Email Connector](https://marketplace.mendix.com/link/component/120739).
+This utility will assist you in migrating only data from the [Email with template](https://marketplace.mendix.com/link/component/259) to the new [Email Connector](https://marketplace.mendix.com/link/component/120739).
 
 ## Considerations
 
@@ -25,18 +25,18 @@ This utility will help to migrate onle data from [Email with template](https://m
     - OAuth provider’s Client ID and Client secrete will be migrated.
     - OAuth provider’s callback URL will not be migrated. 
 ### Email templates
-    - Tokens associated with email template will be migrated.
-    - Attachments associated with email template will be migrated.
+- Tokens associated with email template will be migrated.
+- Attachments associated with email template will be migrated.
 ### Email Messages
-    - Email messages with attachments will be migrated.
+- Email messages with attachments will be migrated.
 ### Error logs 
-    - Will migrate all data but will not be associated with the email account; this must be addressed after migration.
+- Will migrate all data but will not be associated with the email account; this must be addressed after migration.
 ### Associations
-    - Associations that exist in both modules will only be migrated.
-    - Email Connector-specific associations must be configured after/during migration.
+- Associations that exist in both modules will only be migrated.
+- Email Connector-specific associations must be configured after/during migration.
 ### Data loss
-    - Because Email Connector does not support custom mail headers, data from the 'Header' entity will not be migrated.
-    - It is not possible to associate 'EmailMessage' with 'EmailAccount,' so messages with the status Queued, Sent, Failed, Error, Received will not be listed. Such 'EmailMessage' will be dormant until the user establishes the association after/during migration.
+- Because Email Connector does not support custom mail headers, data from the 'Header' entity will not be migrated.
+- It is not possible to associate 'EmailMessage' with 'EmailAccount,' so messages with the status Queued, Sent, Failed, Error, Received will not be listed. Such 'EmailMessage' will be dormant until the user establishes the association after/during migration.
 
 
 ## Following things will not be migrated 
@@ -65,11 +65,11 @@ This utility will help to migrate onle data from [Email with template](https://m
 9. Select 'Start Migration'.
 10. Wait for the message 'Migration completed!' Message, then check the console logs for more information.
 11. Examine the email connector module's 'After Migration' statistics.
-    11.1. Validate the data in email connector entities, or else. Open the overview page for the email connector.
-    11.2. Validate the templates that were migrated.
-    11.3. Validate email messages, to view email messages, create an association with an email account.
-    11.4. Validate Error Logs, if necessary, create an association with an email account to view them from the Account Settings page.
-    11.5. Validate account and verify send email works for accounts migrated with basic authentication.
+    1. Validate the data in email connector entities, or else. Open the overview page for the email connector.
+    2. Validate the templates that were migrated.
+    3. Validate email messages, to view email messages, create an association with an email account.
+    4. Validate Error Logs, if necessary, create an association with an email account to view them from the Account Settings page.
+    5. Validate account and verify send email works for accounts migrated with basic authentication.
 17. In the case of Oauth, update the Oauth provider details, but wait for additional steps before re-authorizing and making it work.
 18. If you are good with the data uninstall the email template module.
 19. Delete the migration utility module.
