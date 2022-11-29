@@ -3,14 +3,20 @@
 This utility will assist you in migrating only data from the [Email with template](https://marketplace.mendix.com/link/component/259) to the new [Email Connector](https://marketplace.mendix.com/link/component/120739).
 
 ## Considerations
+### Dependencies 
+- Latest [Email with template](https://marketplace.mendix.com/link/component/259) module.
+- Latest [Email Connector](https://marketplace.mendix.com/link/component/120739) module.
+- Latest [Encryption](https://marketplace.mendix.com/link/component/1011) module.
+- Latest [Mx Reflection](https://marketplace.mendix.com/link/component/69) module.
 
-### App prerequisites 
+### Pre-rerequisites 
 - This utility will help migrate only data.
 - App on MX 7 should first migrate to MX 8 LTS 
 - App should be on at least Mendix 8 LTS
 - The app should have the most recent version of the Email with Template Module.
 - The app should have the most recent Mx Model reflection module. 
 - The app should have the most recent Encryption module.
+- Import the migration utility and troubleshoot any Atlas UI issues that may arise depending on your Studio Pro version.
 - There should be no customization in the domain model of Email with template module in the app, for example:
     - Changes to any entity's properties 
     - Changes to attributes, associations, validation rules, event handlers, indexes, and access rules
