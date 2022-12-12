@@ -10,7 +10,8 @@
 package email_connector.actions;
 
 import com.mendix.core.objectmanagement.member.MendixString;
-import com.mendix.datahub.connector.email.utils.SendMailsException;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
+import com.mendix.datahub.connector.email.utils.Error;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.systemwideinterfaces.core.IMendixObjectMember;
@@ -46,18 +47,18 @@ public class ReplaceEmailTemplateTokens extends CustomJavaAction<java.lang.Boole
 				this.TokenList.add(mxmodelreflection.proxies.Token.initialize(getContext(), __TokenListElement));
 
 		// BEGIN USER CODE
-        if (this.email == null)
-            throw new SendMailsException("Email object cannot be empty");
+		if (this.email == null)
+			throw new EmailConnectorException(Error.EMPTY_EMAIL_OBJECT.getMessage());
 
-        Map<String, ? extends IMendixObjectMember<?>> members = this.email.getMendixObject().getMembers(getContext());
-        for (Entry<String, ? extends IMendixObjectMember<?>> entry : members.entrySet()) {
+		Map<String, ? extends IMendixObjectMember<?>> members = this.email.getMendixObject().getMembers(getContext());
+		for (Entry<String, ? extends IMendixObjectMember<?>> entry : members.entrySet()) {
 
-            IMendixObjectMember<?> m = entry.getValue();
-            if (m instanceof MendixString && m.hasWriteAccess(this.getContext())) {
-                MendixString member = (MendixString) m;
-                member.setValue(this.getContext(), TokenReplacer.replaceTokens(this.getContext(), member.getValue(this.getContext()), this.__TokenList, this.DataObject));
-            }
-        }
+			IMendixObjectMember<?> m = entry.getValue();
+			if (m instanceof MendixString && m.hasWriteAccess(this.getContext())) {
+				MendixString member = (MendixString) m;
+				member.setValue(this.getContext(), TokenReplacer.replaceTokens(this.getContext(), member.getValue(this.getContext()), this.__TokenList, this.DataObject));
+			}
+		}
 
         return true;
 		// END USER CODE

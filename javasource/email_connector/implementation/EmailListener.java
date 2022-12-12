@@ -5,6 +5,7 @@ import com.mendix.core.CoreException;
 import com.mendix.core.CoreRuntimeException;
 import com.mendix.datahub.connector.email.model.Message;
 import com.mendix.datahub.connector.email.service.OnFetchEmailListener;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
 import com.mendix.datahub.connector.eventtracking.Metrics;
 import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.core.IContext;
@@ -47,16 +48,16 @@ public class EmailListener implements OnFetchEmailListener {
         try {
             context = Core.createSystemContext();
             context.startTransaction();
-            var emails = MxMailMapper.mapEmails(emailAccount, messageList,context);
+            var emails = MxMailMapper.mapEmails(emailAccount, messageList, context);
             emails = Core.commit(context, emails);
             context.endTransaction();
             microflowCall(batchReceivedMicroflow)
                     .inTransaction(true)
                     .withParam("MxEmailMessage", emails)
                     .execute(context);
-        } catch (CoreRuntimeException e) {
+        } catch (CoreRuntimeException | EmailConnectorException e) {
             log.error(e.getMessage(), e);
-            if(context != null && context.isInTransaction())
+            if (context != null && context.isInTransaction())
                 context.rollbackTransAction();
         }
     }
@@ -72,8 +73,7 @@ public class EmailListener implements OnFetchEmailListener {
     public void onBatchFailed(Exception e) {
         log.error("Batch fetching failed!", e);
         var sStackTrace = "";
-        try(var sw = new StringWriter();PrintWriter pw = new PrintWriter(sw))
-        {
+        try (var sw = new StringWriter(); PrintWriter pw = new PrintWriter(sw)) {
             e.printStackTrace(pw);
             sStackTrace = sw.toString();
         } catch (IOException ignored) { //NOSONAR

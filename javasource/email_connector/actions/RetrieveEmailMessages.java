@@ -9,9 +9,11 @@
 
 package email_connector.actions;
 
+import com.mendix.core.CoreException;
 import com.mendix.datahub.connector.email.model.ReceiveEmailAccount;
 import com.mendix.datahub.connector.email.service.EmailServiceWorker;
-import com.mendix.datahub.connector.email.utils.ReceiveMailsException;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
+import com.mendix.datahub.connector.email.utils.Error;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
@@ -44,14 +46,17 @@ public class RetrieveEmailMessages extends CustomJavaAction<java.lang.Void>
 
 		// BEGIN USER CODE
 		if (this.emailAccount == null)
-			throw new ReceiveMailsException("Account object cannot be null");
-		if (Boolean.FALSE.equals(this.emailAccount.getisIncomingEmailConfigured()) || this.emailAccount.getIncomingEmailConfiguration_EmailAccount() == null )
-			throw new ReceiveMailsException("Incoming server is not configured");
-		var serverAccount = new ReceiveEmailAccount(getProtocol(this.emailAccount.getIncomingEmailConfiguration_EmailAccount().getIncomingProtocol()), this.emailAccount.getIncomingEmailConfiguration_EmailAccount().getServerHost(), this.emailAccount.getIncomingEmailConfiguration_EmailAccount().getServerPort(), this.emailAccount.getUsername(), Microflows.decrypt(getContext(), this.emailAccount.getPassword()));		MxMailMapper.setReceiveAccountConfigurations(this.emailAccount, serverAccount);
+			throw new EmailConnectorException(Error.EMPTY_EMAIL_ACCOUNT.getMessage());
+		if (Boolean.FALSE.equals(this.emailAccount.getisIncomingEmailConfigured()) || this.emailAccount.getIncomingEmailConfiguration_EmailAccount() == null)
+			throw new EmailConnectorException(Error.EMPTY_INCOMING_EMAIL_CONFIG.getMessage());
+
+		var serverAccount = new ReceiveEmailAccount(getProtocol(this.emailAccount.getIncomingEmailConfiguration_EmailAccount().getIncomingProtocol()), this.emailAccount.getIncomingEmailConfiguration_EmailAccount().getServerHost(), this.emailAccount.getIncomingEmailConfiguration_EmailAccount().getServerPort(), this.emailAccount.getUsername(), Microflows.decrypt(getContext(), this.emailAccount.getPassword()));
+		MxMailMapper.setReceiveAccountConfigurations(this.emailAccount, serverAccount);
 		var emailListener = new EmailListener(this.onEmailFetchMicroflow, this.onFetchCompleteMicroflow, this.onFetchErrorMicroflow, this.emailAccount);
 		var emailService = new EmailServiceWorker(serverAccount);
 		emailService.registerOnFetchEmailListener(emailListener);
 		emailService.fetchEmailsInBatch();
+
 		return null;
 		// END USER CODE
 	}

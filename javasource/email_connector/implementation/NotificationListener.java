@@ -6,6 +6,7 @@ import com.mendix.core.CoreRuntimeException;
 import com.mendix.datahub.connector.email.model.Message;
 import com.mendix.datahub.connector.email.model.NotificationState;
 import com.mendix.datahub.connector.email.service.NewEmailNotificationListener;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
 import com.mendix.datahub.connector.eventtracking.Metrics;
 import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.core.IContext;
@@ -30,7 +31,7 @@ public class NotificationListener implements NewEmailNotificationListener {
     }
 
     @Override
-    public void onEmailNotificationReceived(List<Message> messageList){
+    public void onEmailNotificationReceived(List<Message> messageList) {
         IContext context = null;
         try {
             Metrics.createCounter("dnl_connectors_ec_receive_email")
@@ -44,20 +45,20 @@ public class NotificationListener implements NewEmailNotificationListener {
 
 
         try {
-                context = Core.createSystemContext();
-                context.startTransaction();
-                var emails = MxMailMapper.mapEmails(emailAccount, messageList, context);
-                emails = Core.commit(context, emails);
-                context.endTransaction();
-                microflowCall(emailReceivedMicroflow)
-                        .withParam("MxEmailMessage", emails)
-                        .execute(context);
-            } catch (CoreRuntimeException e) {
-                log.error(e.getMessage(), e);
-                if (context != null && context.isInTransaction())
-                    context.rollbackTransAction();
-            }
+            context = Core.createSystemContext();
+            context.startTransaction();
+            var emails = MxMailMapper.mapEmails(emailAccount, messageList, context);
+            emails = Core.commit(context, emails);
+            context.endTransaction();
+            microflowCall(emailReceivedMicroflow)
+                    .withParam("MxEmailMessage", emails)
+                    .execute(context);
+        } catch (CoreRuntimeException | EmailConnectorException e) {
+            log.error(e.getMessage(), e);
+            if (context != null && context.isInTransaction())
+                context.rollbackTransAction();
         }
+    }
 
     @Override
     public void onEmailNotificationStateChanged(NotificationState notificationState, String comment) {

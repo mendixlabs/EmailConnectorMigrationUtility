@@ -125,11 +125,11 @@ public class Microflows
 		params.put("OAuthProvider", _oAuthProvider == null ? null : _oAuthProvider.getMendixObject());
 		Core.microflowCall("Email_Connector.ACT_FormCallbackURL").withParams(params).execute(context);
 	}
-	public static void aCT_GeneratePlainText(IContext context, email_connector.proxies.EmailTemplate _emailTemplate)
+	public static void aCT_GeneratePlainTextTemplate(IContext context, email_connector.proxies.EmailTemplate _emailTemplate)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("EmailTemplate", _emailTemplate == null ? null : _emailTemplate.getMendixObject());
-		Core.microflowCall("Email_Connector.ACT_GeneratePlainText").withParams(params).execute(context);
+		Core.microflowCall("Email_Connector.ACT_GeneratePlainTextTemplate").withParams(params).execute(context);
 	}
 	public static system.proxies.Session aCT_GetCurrentSession(IContext context)
 	{
@@ -208,17 +208,17 @@ public class Microflows
 		params.put("OAuthError", _oAuthError == null ? null : _oAuthError.getMendixObject());
 		Core.microflowCall("Email_Connector.ACT_RedirectToHomePage").withParams(params).execute(context);
 	}
-	public static void aCT_RemoveConfiguration(IContext context, email_connector.proxies.EmailAccount _emailAccount)
+	public static void aCT_RemoveAccountFromAccountSettingEdit(IContext context, email_connector.proxies.EmailAccount _emailAccount)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("EmailAccount", _emailAccount == null ? null : _emailAccount.getMendixObject());
-		Core.microflowCall("Email_Connector.ACT_RemoveConfiguration").withParams(params).execute(context);
+		Core.microflowCall("Email_Connector.ACT_RemoveAccountFromAccountSettingEdit").withParams(params).execute(context);
 	}
-	public static void aCT_RemoveConfiguration_2(IContext context, email_connector.proxies.EmailAccount _emailAccount)
+	public static void aCT_RemoveAccountFromOverview(IContext context, email_connector.proxies.EmailAccount _emailAccount)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("EmailAccount", _emailAccount == null ? null : _emailAccount.getMendixObject());
-		Core.microflowCall("Email_Connector.ACT_RemoveConfiguration_2").withParams(params).execute(context);
+		Core.microflowCall("Email_Connector.ACT_RemoveAccountFromOverview").withParams(params).execute(context);
 	}
 	public static void aCT_ReplyEmail(IContext context, email_connector.proxies.EmailMessage _emailMessage, email_connector.proxies.EmailAccount _emailAccount)
 	{
@@ -384,11 +384,11 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		Core.microflowCall("Email_Connector.DS_OAuthProvider").withParams(params).execute(context);
 	}
-	public static void dS_ReceiveEmails(IContext context, email_connector.proxies.EmailAccount _mxEmailAccount)
+	public static void dS_RetrieveEmails(IContext context, email_connector.proxies.EmailAccount _mxEmailAccount)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("MxEmailAccount", _mxEmailAccount == null ? null : _mxEmailAccount.getMendixObject());
-		Core.microflowCall("Email_Connector.DS_ReceiveEmails").withParams(params).execute(context);
+		Core.microflowCall("Email_Connector.DS_RetrieveEmails").withParams(params).execute(context);
 	}
 	public static java.util.List<email_connector.proxies.LDAPBaseDN> dSO_BaseNames(IContext context, email_connector.proxies.LDAPConfiguration _lDAPConfiguration)
 	{
@@ -475,12 +475,6 @@ public class Microflows
 		params.put("EmailTemplate", _emailTemplate == null ? null : _emailTemplate.getMendixObject());
 		Core.microflowCall("Email_Connector.OCH_EmailTemplateRecipientsToggle").withParams(params).execute(context);
 	}
-	public static void oCH_IncomingEmailProtocol(IContext context, email_connector.proxies.EmailAccount _emailAccount)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("EmailAccount", _emailAccount == null ? null : _emailAccount.getMendixObject());
-		Core.microflowCall("Email_Connector.OCH_IncomingEmailProtocol").withParams(params).execute(context);
-	}
 	public static void oCH_IsOAuthUsed(IContext context, email_connector.proxies.EmailAccount _emailAccount)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
@@ -492,12 +486,6 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("EmailAccount", _emailAccount == null ? null : _emailAccount.getMendixObject());
 		Core.microflowCall("Email_Connector.OCH_OAuthConfiguration").withParams(params).execute(context);
-	}
-	public static void oCH_OutgoingEmailProtocol(IContext context, email_connector.proxies.EmailAccount _emailAccount)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("EmailAccount", _emailAccount == null ? null : _emailAccount.getMendixObject());
-		Core.microflowCall("Email_Connector.OCH_OutgoingEmailProtocol").withParams(params).execute(context);
 	}
 	public static void oCH_ReceiveBatchFailed(IContext context, java.lang.String _message, java.lang.String _errorType, java.lang.String _stackTrace, email_connector.proxies.EmailAccount _emailAccount)
 	{
@@ -639,20 +627,47 @@ public class Microflows
 		}
 		return result;
 	}
+	public static java.util.List<email_connector.proxies.Attachment> sub_GetAttachments(IContext context, java.util.List<system.proxies.FileDocument> _fileDocumentList, email_connector.proxies.EmailTemplate _emailTemplate)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		java.util.ArrayList<IMendixObject> listparam_fileDocumentList = null;
+		if (_fileDocumentList != null)
+		{
+			listparam_fileDocumentList = new java.util.ArrayList<>();
+			for (system.proxies.FileDocument obj : _fileDocumentList)
+				listparam_fileDocumentList.add(obj.getMendixObject());
+		}
+		params.put("FileDocumentList", listparam_fileDocumentList);
+
+		params.put("EmailTemplate", _emailTemplate == null ? null : _emailTemplate.getMendixObject());
+		java.util.List<IMendixObject> objs = Core.microflowCall("Email_Connector.Sub_GetAttachments").withParams(params).execute(context);
+		java.util.List<email_connector.proxies.Attachment> result = null;
+		if (objs != null)
+		{
+			result = new java.util.ArrayList<>();
+			for (IMendixObject obj : objs)
+				result.add(email_connector.proxies.Attachment.initialize(context, obj));
+		}
+		return result;
+	}
+	public static email_connector.proxies.OAuthProvider sub_GetFirstOAuthProvider(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		IMendixObject result = (IMendixObject)Core.microflowCall("Email_Connector.Sub_GetFirstOAuthProvider").withParams(params).execute(context);
+		return result == null ? null : email_connector.proxies.OAuthProvider.initialize(context, result);
+	}
+	public static java.lang.String sub_GetOAuthURL(IContext context, email_connector.proxies.EmailAccount _emailAccount)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("EmailAccount", _emailAccount == null ? null : _emailAccount.getMendixObject());
+		return (java.lang.String) Core.microflowCall("Email_Connector.sub_GetOAuthURL").withParams(params).execute(context);
+	}
 	public static void sub_SendQueuedEmail(IContext context, email_connector.proxies.EmailMessage _emailMessage, email_connector.proxies.EmailAccount _emailAccount)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("EmailMessage", _emailMessage == null ? null : _emailMessage.getMendixObject());
 		params.put("EmailAccount", _emailAccount == null ? null : _emailAccount.getMendixObject());
 		Core.microflowCall("Email_Connector.Sub_SendQueuedEmail").withParams(params).execute(context);
-	}
-	public static void sub_ShowErrorPopup(IContext context, system.proxies.Error _error, email_connector.proxies.EmailAccount _emailAccount, boolean _renderAsValidation)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("Error", _error == null ? null : _error.getMendixObject());
-		params.put("EmailAccount", _emailAccount == null ? null : _emailAccount.getMendixObject());
-		params.put("RenderAsValidation", _renderAsValidation);
-		Core.microflowCall("Email_Connector.Sub_ShowErrorPopup").withParams(params).execute(context);
 	}
 	public static boolean vAL_BatchDetails(IContext context, email_connector.proxies.IncomingEmailConfiguration _incomingEmailConfiguration)
 	{
@@ -671,17 +686,5 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("EmailTemplate", _emailTemplate == null ? null : _emailTemplate.getMendixObject());
 		return (java.lang.Boolean) Core.microflowCall("Email_Connector.VAL_EmailTemplateRecipients").withParams(params).execute(context);
-	}
-	public static boolean vAL_IncomingServerDetails(IContext context, email_connector.proxies.EmailAccount _emailAccount)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("EmailAccount", _emailAccount == null ? null : _emailAccount.getMendixObject());
-		return (java.lang.Boolean) Core.microflowCall("Email_Connector.VAL_IncomingServerDetails").withParams(params).execute(context);
-	}
-	public static boolean vAL_OutgoingServerDetails(IContext context, email_connector.proxies.EmailAccount _emailAccount)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("EmailAccount", _emailAccount == null ? null : _emailAccount.getMendixObject());
-		return (java.lang.Boolean) Core.microflowCall("Email_Connector.VAL_OutgoingServerDetails").withParams(params).execute(context);
 	}
 }

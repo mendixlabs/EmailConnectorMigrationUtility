@@ -10,8 +10,9 @@
 package email_connector.actions;
 
 import com.mendix.datahub.connector.email.model.LDAPConfiguration;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
+import com.mendix.datahub.connector.email.utils.Error;
 import com.mendix.datahub.connector.email.utils.LDAPHelper;
-import com.mendix.datahub.connector.email.utils.ReceiveMailsException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
@@ -37,7 +38,7 @@ public class GetBaseDNList extends CustomJavaAction<java.util.List<IMendixObject
 
 		// BEGIN USER CODE
 		if (this.LDAPConfiguration == null)
-			throw new ReceiveMailsException("LDAPConfiguration cannot be null.");
+			throw new EmailConnectorException(Error.EMPTY_LDAP_CONFIG.getMessage());
 
 		java.util.List<IMendixObject> newList = new ArrayList<>();
 		var ldapConfiguration = new LDAPConfiguration();

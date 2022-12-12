@@ -11,13 +11,13 @@ package email_connector.actions;
 
 import com.mendix.core.Core;
 import com.mendix.core.objectmanagement.member.MendixString;
-import com.mendix.datahub.connector.email.utils.SendMailsException;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
+import com.mendix.datahub.connector.email.utils.Error;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObjectMember;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import email_connector.implementation.MxMailMapper;
-import encryption.proxies.microflows.Microflows;
 import mxmodelreflection.TokenReplacer;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +44,7 @@ public class CreateEmailFromTemplate extends CustomJavaAction<IMendixObject>
 
 		// BEGIN USER CODE
 		if (this.EmailTemplate == null)
-			throw new SendMailsException("Email template object cannot be null");
+			throw new EmailConnectorException(Error.EMPTY_EMAIL_TEMPLATE.getMessage());
 
 		List<IMendixObject> tokenList = Core.retrieveByPath(getContext(), this.EmailTemplate.getMendixObject(), email_connector.proxies.EmailTemplate.MemberNames.EmailTemplate_Token.toString());
 		var emailMessageFromTemplate = MxMailMapper.getEmailMessageFromTemplate(getContext(), this.EmailTemplate, this.Queued);
