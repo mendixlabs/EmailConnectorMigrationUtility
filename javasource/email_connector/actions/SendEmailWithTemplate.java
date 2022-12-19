@@ -11,7 +11,8 @@ package email_connector.actions;
 
 import com.mendix.core.Core;
 import com.mendix.core.objectmanagement.member.MendixString;
-import com.mendix.datahub.connector.email.utils.SendMailsException;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
+import com.mendix.datahub.connector.email.utils.Error;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.systemwideinterfaces.core.IMendixObjectMember;
@@ -49,21 +50,22 @@ public class SendEmailWithTemplate extends CustomJavaAction<java.lang.Void>
 
 		// BEGIN USER CODE
 		if (this.EmailAccount == null)
-			throw new SendMailsException("Account object cannot be null");
+			throw new EmailConnectorException(Error.EMPTY_EMAIL_ACCOUNT.getMessage());
 
 		if (Boolean.FALSE.equals(this.EmailAccount.getisOutgoingEmailConfigured()) || this.EmailAccount.getOutgoingEmailConfiguration_EmailAccount() == null)
-			throw new SendMailsException("Outgoing server is not configured");
+			throw new EmailConnectorException(Error.EMPTY_OUTGOING_EMAIL_CONFIG.getMessage());
 
 		if (this.EmailTemplate == null)
-			throw new SendMailsException("Email template object cannot be null");
+			throw new EmailConnectorException(Error.EMPTY_EMAIL_TEMPLATE.getMessage());
 
-		if(Boolean.TRUE.equals(this.EmailTemplate.getSigned()) && Boolean.FALSE.equals(this.EmailAccount.getisP12Configured()))
-			throw new SendMailsException("Digital Signature not configured for this account");
+		if (Boolean.TRUE.equals(this.EmailTemplate.getSigned()) && Boolean.FALSE.equals(this.EmailAccount.getisP12Configured()))
+			throw new EmailConnectorException(Error.EMPTY_DIGITAL_SIGNATURE.getMessage());
 
-		if(Boolean.TRUE.equals(this.EmailTemplate.getEncrypted()) && Boolean.FALSE.equals(this.EmailAccount.getisLDAPConfigured()))
-			throw new SendMailsException("LDAP not configured for this account");
+		if (Boolean.TRUE.equals(this.EmailTemplate.getEncrypted()) && Boolean.FALSE.equals(this.EmailAccount.getisLDAPConfigured()))
+			throw new EmailConnectorException(Error.EMPTY_LDAP_CONFIG.getMessage());
 
-        List<IMendixObject> tokenList = Core.retrieveByPath(getContext(), this.EmailTemplate.getMendixObject(), email_connector.proxies.EmailTemplate.MemberNames.EmailTemplate_Token.toString());
+
+		List<IMendixObject> tokenList = Core.retrieveByPath(getContext(), this.EmailTemplate.getMendixObject(), email_connector.proxies.EmailTemplate.MemberNames.EmailTemplate_Token.toString());
         var email = MxMailMapper.getEmailMessageFromTemplate(getContext(), this.EmailTemplate, this.Queued);
 
         Map<String, ? extends IMendixObjectMember<?>> members = email.getMendixObject().getMembers(getContext());
@@ -75,7 +77,7 @@ public class SendEmailWithTemplate extends CustomJavaAction<java.lang.Void>
             }
         }
 		this.EmailAccount.setPassword(Microflows.decrypt(getContext(), this.EmailAccount.getPassword()));
-		email_connector.proxies.microflows.Microflows.aCT_SendEmailFromJavaAction(getContext(), this.EmailAccount, email, this.EmailTemplate);
+		email_connector.proxies.microflows.Microflows.sUB_SendEmailFromJavaAction(getContext(), this.EmailAccount, email, this.EmailTemplate);
         return null;
 		// END USER CODE
 	}

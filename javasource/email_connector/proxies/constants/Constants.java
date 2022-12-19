@@ -15,6 +15,11 @@ public class Constants
 		return (java.lang.String)Core.getConfiguration().getConstantValue("Email_Connector.azure_defaultConfig");
 	}
 
+	public static java.lang.String getEmail_Connector_Version()
+	{
+		return (java.lang.String)Core.getConfiguration().getConstantValue("Email_Connector.Email_Connector_Version");
+	}
+
 	/**
 	* The amount of days to preserve error messages.
 	*/

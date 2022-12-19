@@ -20,6 +20,10 @@ public class DataStats_Before
 	 */
 	public enum MemberNames
 	{
+		ECAccounts("ECAccounts"),
+		ECEmails("ECEmails"),
+		ECTemplates("ECTemplates"),
+		ECErrorLogs("ECErrorLogs"),
 		ETAccounts("ETAccounts"),
 		ETEmails("ETEmails"),
 		ETTemplates("ETTemplates"),
@@ -118,6 +122,150 @@ public class DataStats_Before
 	{
 		com.mendix.core.Core.delete(context, getMendixObject());
 	}
+	/**
+	 * @return value of ECAccounts
+	 */
+	public final java.lang.Long getECAccounts()
+	{
+		return getECAccounts(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of ECAccounts
+	 */
+	public final java.lang.Long getECAccounts(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Long) getMendixObject().getValue(context, MemberNames.ECAccounts.toString());
+	}
+
+	/**
+	 * Set value of ECAccounts
+	 * @param ecaccounts
+	 */
+	public final void setECAccounts(java.lang.Long ecaccounts)
+	{
+		setECAccounts(getContext(), ecaccounts);
+	}
+
+	/**
+	 * Set value of ECAccounts
+	 * @param context
+	 * @param ecaccounts
+	 */
+	public final void setECAccounts(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Long ecaccounts)
+	{
+		getMendixObject().setValue(context, MemberNames.ECAccounts.toString(), ecaccounts);
+	}
+
+	/**
+	 * @return value of ECEmails
+	 */
+	public final java.lang.Long getECEmails()
+	{
+		return getECEmails(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of ECEmails
+	 */
+	public final java.lang.Long getECEmails(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Long) getMendixObject().getValue(context, MemberNames.ECEmails.toString());
+	}
+
+	/**
+	 * Set value of ECEmails
+	 * @param ecemails
+	 */
+	public final void setECEmails(java.lang.Long ecemails)
+	{
+		setECEmails(getContext(), ecemails);
+	}
+
+	/**
+	 * Set value of ECEmails
+	 * @param context
+	 * @param ecemails
+	 */
+	public final void setECEmails(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Long ecemails)
+	{
+		getMendixObject().setValue(context, MemberNames.ECEmails.toString(), ecemails);
+	}
+
+	/**
+	 * @return value of ECTemplates
+	 */
+	public final java.lang.Long getECTemplates()
+	{
+		return getECTemplates(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of ECTemplates
+	 */
+	public final java.lang.Long getECTemplates(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Long) getMendixObject().getValue(context, MemberNames.ECTemplates.toString());
+	}
+
+	/**
+	 * Set value of ECTemplates
+	 * @param ectemplates
+	 */
+	public final void setECTemplates(java.lang.Long ectemplates)
+	{
+		setECTemplates(getContext(), ectemplates);
+	}
+
+	/**
+	 * Set value of ECTemplates
+	 * @param context
+	 * @param ectemplates
+	 */
+	public final void setECTemplates(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Long ectemplates)
+	{
+		getMendixObject().setValue(context, MemberNames.ECTemplates.toString(), ectemplates);
+	}
+
+	/**
+	 * @return value of ECErrorLogs
+	 */
+	public final java.lang.Long getECErrorLogs()
+	{
+		return getECErrorLogs(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of ECErrorLogs
+	 */
+	public final java.lang.Long getECErrorLogs(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Long) getMendixObject().getValue(context, MemberNames.ECErrorLogs.toString());
+	}
+
+	/**
+	 * Set value of ECErrorLogs
+	 * @param ecerrorlogs
+	 */
+	public final void setECErrorLogs(java.lang.Long ecerrorlogs)
+	{
+		setECErrorLogs(getContext(), ecerrorlogs);
+	}
+
+	/**
+	 * Set value of ECErrorLogs
+	 * @param context
+	 * @param ecerrorlogs
+	 */
+	public final void setECErrorLogs(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Long ecerrorlogs)
+	{
+		getMendixObject().setValue(context, MemberNames.ECErrorLogs.toString(), ecerrorlogs);
+	}
+
 	/**
 	 * @return value of ETAccounts
 	 */

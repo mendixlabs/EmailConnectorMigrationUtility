@@ -14,8 +14,8 @@ import com.mendix.core.CoreException;
 import com.mendix.datahub.connector.email.model.ReceiveEmailAccount;
 import com.mendix.datahub.connector.email.model.SendEmailAccount;
 import com.mendix.datahub.connector.email.service.EmailServiceWorker;
-import com.mendix.datahub.connector.email.utils.ReceiveMailsException;
-import com.mendix.datahub.connector.email.utils.SendMailsException;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
+import com.mendix.datahub.connector.email.utils.Error;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
@@ -44,7 +44,7 @@ public class CheckServerConnection extends CustomJavaAction<java.lang.Void>
 
 		// BEGIN USER CODE
 		if (this.EmailAccount == null) {
-			throw new ReceiveMailsException("EmailAccount cannot be null.");
+			throw new EmailConnectorException(Error.EMPTY_EMAIL_ACCOUNT.getMessage());
 		}
 		var finalErrorMsg = new StringBuilder();
 
@@ -53,7 +53,7 @@ public class CheckServerConnection extends CustomJavaAction<java.lang.Void>
 
 		if (!isIncomingServerConnected || !isOutgoingServerConnected)
 		{
-			throw new CoreException(finalErrorMsg.toString());
+			throw new EmailConnectorException(finalErrorMsg.toString());
 		}
 		return null;
 		// END USER CODE
@@ -69,23 +69,27 @@ public class CheckServerConnection extends CustomJavaAction<java.lang.Void>
 	}
 
 	// BEGIN EXTRA CODE
-	private boolean checkIncomingServerConnection(StringBuilder finalErrorMsg) throws ReceiveMailsException, CoreException {
+	private boolean checkIncomingServerConnection(StringBuilder finalErrorMsg) throws EmailConnectorException, CoreException {
 		var isIncomingServerConnected = false;
 		var incomingEmailAccounts = Core.retrieveByPath(getContext(), this.EmailAccount.getMendixObject(), IncomingEmailConfiguration.MemberNames.IncomingEmailConfiguration_EmailAccount.toString());
 		if(Boolean.TRUE.equals(this.EmailAccount.getisIncomingEmailConfigured()) && !incomingEmailAccounts.isEmpty()) {
 
-			var incomingEmailAccount = IncomingEmailConfiguration.initialize(getContext(),incomingEmailAccounts.get(0));
-			var account = new ReceiveEmailAccount(getProtocol(incomingEmailAccount.getIncomingProtocol()), incomingEmailAccount.getServerHost(), incomingEmailAccount.getServerPort(), this.EmailAccount.getUsername(), Microflows.decrypt(getContext(), this.EmailAccount.getPassword()));			try
+			try
 			{
+				var incomingEmailAccount = IncomingEmailConfiguration.initialize(getContext(),incomingEmailAccounts.get(0));
+				if (incomingEmailAccount.getServerPort() == null)
+					throw new EmailConnectorException(Error.EMPTY_SERVER_PORT.getMessage());
+				var account = new ReceiveEmailAccount(getProtocol(incomingEmailAccount.getIncomingProtocol()), incomingEmailAccount.getServerHost(), incomingEmailAccount.getServerPort(), this.EmailAccount.getUsername(), Microflows.decrypt(getContext(), this.EmailAccount.getPassword()));
+
 				MxMailMapper.setReceiveAccountConfigurations(this.EmailAccount, account);
 				var emailServiceWorker = new EmailServiceWorker(account);
 				isIncomingServerConnected = emailServiceWorker.isConnected();
 				if(!isIncomingServerConnected)
-					finalErrorMsg.append("Connection with incoming server is failed. ");
+					finalErrorMsg.append(Error.INCORRECT_INCOMING_CONFIG.getMessage());
 			}
-			catch (ReceiveMailsException | SendMailsException e) {
-				finalErrorMsg.append(String.format("Connection with incoming server is failed with error %s ", e.getMessage()));
-				Core.getLogger(Constants.getLogNode()).error("Error while connecting incoming server" , e);
+			catch (NullPointerException e) {
+				finalErrorMsg.append(String.format(Error.INVALID_INCOMING_CONFIG.getMessage(), e.getMessage()));
+				Core.getLogger(Constants.getLogNode()).error(Error.INCORRECT_INCOMING_CONFIG.getMessage() , e);
 			}
 
 		}
@@ -95,22 +99,28 @@ public class CheckServerConnection extends CustomJavaAction<java.lang.Void>
 		return isIncomingServerConnected;
 	}
 
-	private boolean checkOutgoingServerConnection(StringBuilder finalErrorMsg) throws ReceiveMailsException, CoreException {
+	private boolean checkOutgoingServerConnection(StringBuilder finalErrorMsg) throws EmailConnectorException, CoreException {
 		var isOutgoingServerConnected = false;
 		var outgoingEmailAccounts = Core.retrieveByPath(getContext(), this.EmailAccount.getMendixObject(), OutgoingEmailConfiguration.MemberNames.OutgoingEmailConfiguration_EmailAccount.toString());
 		if(Boolean.TRUE.equals(this.EmailAccount.getisOutgoingEmailConfigured()) && !outgoingEmailAccounts.isEmpty()) {
-			var outgoingEmailAccount = OutgoingEmailConfiguration.initialize(getContext(),outgoingEmailAccounts.get(0));
-			var account = new SendEmailAccount(outgoingEmailAccount.getServerHost(), outgoingEmailAccount.getServerPort(), this.EmailAccount.getUsername(), Microflows.decrypt(getContext(), this.EmailAccount.getPassword()));			try
+			try
 			{
+				var outgoingEmailAccount = OutgoingEmailConfiguration.initialize(getContext(),outgoingEmailAccounts.get(0));
+				if (outgoingEmailAccount.getOutgoingProtocol() == null)
+					throw new EmailConnectorException(Error.EMPTY_PROTOCOL.getMessage());
+				if (outgoingEmailAccount.getServerPort() == null)
+					throw new EmailConnectorException(Error.EMPTY_SERVER_PORT.getMessage());
+				var account = new SendEmailAccount(outgoingEmailAccount.getServerHost(), outgoingEmailAccount.getServerPort(), this.EmailAccount.getUsername(), Microflows.decrypt(getContext(), this.EmailAccount.getPassword()));
+
 				MxMailMapper.setSendAccountConfigurations(this.EmailAccount, account,null,null,context());
 				var emailServiceWorker = new EmailServiceWorker(account);
 				isOutgoingServerConnected = emailServiceWorker.isConnected();
 				if(!isOutgoingServerConnected)
-					finalErrorMsg.append("Connection with outgoing server is failed.");
+					finalErrorMsg.append(Error.INCORRECT_OUTGOING_CONFIG.getMessage());
 			}
-			catch (ReceiveMailsException | SendMailsException e) {
-				finalErrorMsg.append(String.format("Connection with outgoing server is failed with error %s ", e.getMessage()));
-				Core.getLogger(Constants.getLogNode()).error("Error while connecting outgoing server" , e);
+			catch (NullPointerException e) {
+				finalErrorMsg.append(String.format(Error.INVALID_OUTGOING_CONFIG.getMessage(), e.getMessage()));
+				Core.getLogger(Constants.getLogNode()).error(Error.INCORRECT_OUTGOING_CONFIG.getMessage() , e);
 			}
 		}
 		else

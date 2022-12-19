@@ -21,8 +21,7 @@ public class OAuthError
 	public enum MemberNames
 	{
 		HTTPStatusCode("HTTPStatusCode"),
-		Error("Error"),
-		OAuthError_Session("Email_Connector.OAuthError_Session");
+		Error("Error");
 
 		private java.lang.String metaName;
 
@@ -187,49 +186,6 @@ public class OAuthError
 	public final void setError(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String error)
 	{
 		getMendixObject().setValue(context, MemberNames.Error.toString(), error);
-	}
-
-	/**
-	 * @return value of OAuthError_Session
-	 */
-	public final system.proxies.Session getOAuthError_Session() throws com.mendix.core.CoreException
-	{
-		return getOAuthError_Session(getContext());
-	}
-
-	/**
-	 * @param context
-	 * @return value of OAuthError_Session
-	 */
-	public final system.proxies.Session getOAuthError_Session(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
-	{
-		system.proxies.Session result = null;
-		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.OAuthError_Session.toString());
-		if (identifier != null)
-			result = system.proxies.Session.load(context, identifier);
-		return result;
-	}
-
-	/**
-	 * Set value of OAuthError_Session
-	 * @param oautherror_session
-	 */
-	public final void setOAuthError_Session(system.proxies.Session oautherror_session)
-	{
-		setOAuthError_Session(getContext(), oautherror_session);
-	}
-
-	/**
-	 * Set value of OAuthError_Session
-	 * @param context
-	 * @param oautherror_session
-	 */
-	public final void setOAuthError_Session(com.mendix.systemwideinterfaces.core.IContext context, system.proxies.Session oautherror_session)
-	{
-		if (oautherror_session == null)
-			getMendixObject().setValue(context, MemberNames.OAuthError_Session.toString(), null);
-		else
-			getMendixObject().setValue(context, MemberNames.OAuthError_Session.toString(), oautherror_session.getMendixObject().getId());
 	}
 
 	/**
