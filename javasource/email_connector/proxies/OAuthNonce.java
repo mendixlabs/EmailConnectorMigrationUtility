@@ -21,8 +21,7 @@ public class OAuthNonce
 	public enum MemberNames
 	{
 		State("State"),
-		OAuthNonce_EmailAccount("Email_Connector.OAuthNonce_EmailAccount"),
-		OAuthNonce_Session("Email_Connector.OAuthNonce_Session");
+		OAuthNonce_EmailAccount("Email_Connector.OAuthNonce_EmailAccount");
 
 		private java.lang.String metaName;
 
@@ -194,49 +193,6 @@ public class OAuthNonce
 			getMendixObject().setValue(context, MemberNames.OAuthNonce_EmailAccount.toString(), null);
 		else
 			getMendixObject().setValue(context, MemberNames.OAuthNonce_EmailAccount.toString(), oauthnonce_emailaccount.getMendixObject().getId());
-	}
-
-	/**
-	 * @return value of OAuthNonce_Session
-	 */
-	public final system.proxies.Session getOAuthNonce_Session() throws com.mendix.core.CoreException
-	{
-		return getOAuthNonce_Session(getContext());
-	}
-
-	/**
-	 * @param context
-	 * @return value of OAuthNonce_Session
-	 */
-	public final system.proxies.Session getOAuthNonce_Session(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
-	{
-		system.proxies.Session result = null;
-		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.OAuthNonce_Session.toString());
-		if (identifier != null)
-			result = system.proxies.Session.load(context, identifier);
-		return result;
-	}
-
-	/**
-	 * Set value of OAuthNonce_Session
-	 * @param oauthnonce_session
-	 */
-	public final void setOAuthNonce_Session(system.proxies.Session oauthnonce_session)
-	{
-		setOAuthNonce_Session(getContext(), oauthnonce_session);
-	}
-
-	/**
-	 * Set value of OAuthNonce_Session
-	 * @param context
-	 * @param oauthnonce_session
-	 */
-	public final void setOAuthNonce_Session(com.mendix.systemwideinterfaces.core.IContext context, system.proxies.Session oauthnonce_session)
-	{
-		if (oauthnonce_session == null)
-			getMendixObject().setValue(context, MemberNames.OAuthNonce_Session.toString(), null);
-		else
-			getMendixObject().setValue(context, MemberNames.OAuthNonce_Session.toString(), oauthnonce_session.getMendixObject().getId());
 	}
 
 	/**

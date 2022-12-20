@@ -10,7 +10,8 @@
 package email_connector.actions;
 
 import com.mendix.datahub.connector.email.model.autoconfig.AutoConfiguration;
-import com.mendix.datahub.connector.email.utils.ReceiveMailsException;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
+import com.mendix.datahub.connector.email.utils.Error;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
@@ -31,7 +32,7 @@ public class GetAutoConfig extends CustomJavaAction<IMendixObject>
 	{
 		// BEGIN USER CODE
 		if (this.EmailID == null || this.EmailID.isBlank())
-			throw new ReceiveMailsException("EmailID cannot be empty");
+			throw new EmailConnectorException(Error.EMPTY_EMAIL_ID.getMessage());
         var emailProviders = AutoConfiguration.getEmailProvider(this.EmailID);
         var mxEmailProvider = new email_connector.proxies.EmailProvider(getContext());
         MxMailMapper.getMappedEmailProvider(getContext(), emailProviders, mxEmailProvider);

@@ -11,7 +11,8 @@ package email_connector.actions;
 
 import com.mendix.datahub.connector.email.model.ReceiveEmailAccount;
 import com.mendix.datahub.connector.email.service.EmailServiceWorker;
-import com.mendix.datahub.connector.email.utils.ReceiveMailsException;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
+import com.mendix.datahub.connector.email.utils.Error;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
@@ -39,9 +40,9 @@ public class GetFolderNames extends CustomJavaAction<java.util.List<IMendixObjec
 
 		// BEGIN USER CODE
         if (this.MxEmailAccount == null)
-            throw new ReceiveMailsException("MxEmailAccount cannot be null.");
+			throw new EmailConnectorException(Error.EMPTY_EMAIL_ACCOUNT.getMessage());
 		if (Boolean.FALSE.equals(this.MxEmailAccount.getisIncomingEmailConfigured()) || this.MxEmailAccount.getIncomingEmailConfiguration_EmailAccount() == null )
-			throw new ReceiveMailsException("Incoming server is not configured");
+			throw new EmailConnectorException(Error.EMPTY_INCOMING_EMAIL_CONFIG.getMessage());
         java.util.List<IMendixObject> newList = new ArrayList<>();
 		var account = new ReceiveEmailAccount(getProtocol(this.MxEmailAccount.getIncomingEmailConfiguration_EmailAccount().getIncomingProtocol()), this.MxEmailAccount.getIncomingEmailConfiguration_EmailAccount().getServerHost(), this.MxEmailAccount.getIncomingEmailConfiguration_EmailAccount().getServerPort(), this.MxEmailAccount.getUsername(), Microflows.decrypt(getContext(), this.MxEmailAccount.getPassword()));		MxMailMapper.setReceiveAccountConfigurations(this.MxEmailAccount, account);
         var emailServiceWorker = new EmailServiceWorker(account);

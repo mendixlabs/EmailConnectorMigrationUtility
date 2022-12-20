@@ -28,7 +28,7 @@ public class EmailTemplate
 		CC("CC"),
 		BCC("BCC"),
 		Content("Content"),
-		isHTML("isHTML"),
+		UseOnlyPlainText("UseOnlyPlainText"),
 		hasAttachment("hasAttachment"),
 		ReplyTo("ReplyTo"),
 		PlainBody("PlainBody"),
@@ -422,39 +422,39 @@ public class EmailTemplate
 	}
 
 	/**
-	 * @return value of isHTML
+	 * @return value of UseOnlyPlainText
 	 */
-	public final java.lang.Boolean getisHTML()
+	public final java.lang.Boolean getUseOnlyPlainText()
 	{
-		return getisHTML(getContext());
+		return getUseOnlyPlainText(getContext());
 	}
 
 	/**
 	 * @param context
-	 * @return value of isHTML
+	 * @return value of UseOnlyPlainText
 	 */
-	public final java.lang.Boolean getisHTML(com.mendix.systemwideinterfaces.core.IContext context)
+	public final java.lang.Boolean getUseOnlyPlainText(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.isHTML.toString());
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.UseOnlyPlainText.toString());
 	}
 
 	/**
-	 * Set value of isHTML
-	 * @param ishtml
+	 * Set value of UseOnlyPlainText
+	 * @param useonlyplaintext
 	 */
-	public final void setisHTML(java.lang.Boolean ishtml)
+	public final void setUseOnlyPlainText(java.lang.Boolean useonlyplaintext)
 	{
-		setisHTML(getContext(), ishtml);
+		setUseOnlyPlainText(getContext(), useonlyplaintext);
 	}
 
 	/**
-	 * Set value of isHTML
+	 * Set value of UseOnlyPlainText
 	 * @param context
-	 * @param ishtml
+	 * @param useonlyplaintext
 	 */
-	public final void setisHTML(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean ishtml)
+	public final void setUseOnlyPlainText(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean useonlyplaintext)
 	{
-		getMendixObject().setValue(context, MemberNames.isHTML.toString(), ishtml);
+		getMendixObject().setValue(context, MemberNames.UseOnlyPlainText.toString(), useonlyplaintext);
 	}
 
 	/**

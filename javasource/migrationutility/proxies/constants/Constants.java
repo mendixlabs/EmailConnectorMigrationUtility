@@ -14,4 +14,9 @@ public class Constants
 	{
 		return (java.lang.String)Core.getConfiguration().getConstantValue("MigrationUtility.LogNode");
 	}
+
+	public static java.lang.String getMigrationUtility_Version()
+	{
+		return (java.lang.String)Core.getConfiguration().getConstantValue("MigrationUtility.MigrationUtility_Version");
+	}
 }

@@ -11,7 +11,8 @@ package email_connector.actions;
 
 import com.mendix.datahub.connector.email.model.ReceiveEmailAccount;
 import com.mendix.datahub.connector.email.service.EmailServiceWorker;
-import com.mendix.datahub.connector.email.utils.ReceiveMailsException;
+import com.mendix.datahub.connector.email.utils.EmailConnectorException;
+import com.mendix.datahub.connector.email.utils.Error;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
@@ -42,9 +43,10 @@ public class SubscribeToIncomingEmail extends CustomJavaAction<java.lang.Void>
 
 		// BEGIN USER CODE
 		if (this.account == null)
-			throw new ReceiveMailsException("Account object cannot be null");
-		if (Boolean.FALSE.equals(this.account.getisIncomingEmailConfigured()) || this.account.getIncomingEmailConfiguration_EmailAccount() == null )
-			throw new ReceiveMailsException("Incoming server is not configured");
+			throw new EmailConnectorException(Error.EMPTY_EMAIL_ACCOUNT.getMessage());
+		if (Boolean.FALSE.equals(this.account.getisIncomingEmailConfigured()) || this.account.getIncomingEmailConfiguration_EmailAccount() == null)
+			throw new EmailConnectorException(Error.EMPTY_INCOMING_EMAIL_CONFIG.getMessage());
+
 		var serverAccount = new ReceiveEmailAccount(getProtocol(this.account.getIncomingEmailConfiguration_EmailAccount().getIncomingProtocol()), this.account.getIncomingEmailConfiguration_EmailAccount().getServerHost(), this.account.getIncomingEmailConfiguration_EmailAccount().getServerPort(), this.account.getUsername(), Microflows.decrypt(getContext(), this.account.getPassword()));		MxMailMapper.setReceiveAccountConfigurations(this.account, serverAccount);
 		var notificationListener = new NotificationListener(this.onNewEmailReceivedMicroflow, this.onSubscriptionStateChangedMicroflow, this.account);
 		var emailService = new EmailServiceWorker(serverAccount);

@@ -32,6 +32,7 @@ public class EmailAccount
 		UseSSLCheckServerIdentity("UseSSLCheckServerIdentity"),
 		isOAuthUsed("isOAuthUsed"),
 		OAuthSetupComplete("OAuthSetupComplete"),
+		isEmailConfigAutoDetect("isEmailConfigAutoDetect"),
 		OutgoingEmailConfiguration_EmailAccount("Email_Connector.OutgoingEmailConfiguration_EmailAccount"),
 		IncomingEmailConfiguration_EmailAccount("Email_Connector.IncomingEmailConfiguration_EmailAccount"),
 		Pk12Certificate_EmailAccount("Email_Connector.Pk12Certificate_EmailAccount"),
@@ -562,6 +563,42 @@ public class EmailAccount
 	public final void setOAuthSetupComplete(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean oauthsetupcomplete)
 	{
 		getMendixObject().setValue(context, MemberNames.OAuthSetupComplete.toString(), oauthsetupcomplete);
+	}
+
+	/**
+	 * @return value of isEmailConfigAutoDetect
+	 */
+	public final java.lang.Boolean getisEmailConfigAutoDetect()
+	{
+		return getisEmailConfigAutoDetect(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of isEmailConfigAutoDetect
+	 */
+	public final java.lang.Boolean getisEmailConfigAutoDetect(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.isEmailConfigAutoDetect.toString());
+	}
+
+	/**
+	 * Set value of isEmailConfigAutoDetect
+	 * @param isemailconfigautodetect
+	 */
+	public final void setisEmailConfigAutoDetect(java.lang.Boolean isemailconfigautodetect)
+	{
+		setisEmailConfigAutoDetect(getContext(), isemailconfigautodetect);
+	}
+
+	/**
+	 * Set value of isEmailConfigAutoDetect
+	 * @param context
+	 * @param isemailconfigautodetect
+	 */
+	public final void setisEmailConfigAutoDetect(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean isemailconfigautodetect)
+	{
+		getMendixObject().setValue(context, MemberNames.isEmailConfigAutoDetect.toString(), isemailconfigautodetect);
 	}
 
 	/**
