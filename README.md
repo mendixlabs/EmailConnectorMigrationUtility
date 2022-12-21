@@ -5,7 +5,7 @@ This utility will assist you in migrating only data from the [Email with templat
 ## Considerations
 ### Dependencies 
 - Latest [Email with template](https://marketplace.mendix.com/link/component/259) module.
-- Latest [Email Connector](https://marketplace.mendix.com/link/component/120739) module.
+- [Email Connector](https://marketplace.mendix.com/link/component/120739) version 3.0.0 module.
 - Latest [Encryption](https://marketplace.mendix.com/link/component/1011) module.
 - Latest [Mx Reflection](https://marketplace.mendix.com/link/component/69) module.
 
