@@ -23,7 +23,7 @@ public class QueryString
 		Param("Param"),
 		QueryString_OAuthProvider("Email_Connector.QueryString_OAuthProvider");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -39,15 +39,17 @@ public class QueryString
 
 	public QueryString(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.QueryString"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected QueryString(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject queryStringMendixObject)
 	{
-		if (queryStringMendixObject == null)
+		if (queryStringMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.QueryString", queryStringMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.QueryString");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, queryStringMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.queryStringMendixObject = queryStringMendixObject;
 		this.context = context;
@@ -65,6 +67,9 @@ public class QueryString
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.QueryString initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -79,14 +84,16 @@ public class QueryString
 
 	public static java.util.List<email_connector.proxies.QueryString> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<email_connector.proxies.QueryString> result = new java.util.ArrayList<email_connector.proxies.QueryString>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Email_Connector.QueryString" + xpathConstraint))
-			result.add(email_connector.proxies.QueryString.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> email_connector.proxies.QueryString.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -95,6 +102,7 @@ public class QueryString
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -153,6 +161,7 @@ public class QueryString
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of QueryString_OAuthProvider
 	 */
 	public final email_connector.proxies.OAuthProvider getQueryString_OAuthProvider() throws com.mendix.core.CoreException
@@ -163,13 +172,15 @@ public class QueryString
 	/**
 	 * @param context
 	 * @return value of QueryString_OAuthProvider
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.OAuthProvider getQueryString_OAuthProvider(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.OAuthProvider result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.QueryString_OAuthProvider.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.OAuthProvider.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -189,10 +200,11 @@ public class QueryString
 	 */
 	public final void setQueryString_OAuthProvider(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.OAuthProvider querystring_oauthprovider)
 	{
-		if (querystring_oauthprovider == null)
+		if (querystring_oauthprovider == null) {
 			getMendixObject().setValue(context, MemberNames.QueryString_OAuthProvider.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.QueryString_OAuthProvider.toString(), querystring_oauthprovider.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -214,9 +226,9 @@ public class QueryString
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.QueryString that = (email_connector.proxies.QueryString) obj;
@@ -236,7 +248,7 @@ public class QueryString
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.QueryString";
+		return entityName;
 	}
 
 	/**

@@ -23,7 +23,7 @@ public class OAuthNonce
 		State("State"),
 		OAuthNonce_EmailAccount("Email_Connector.OAuthNonce_EmailAccount");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -39,15 +39,17 @@ public class OAuthNonce
 
 	public OAuthNonce(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.OAuthNonce"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected OAuthNonce(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject oAuthNonceMendixObject)
 	{
-		if (oAuthNonceMendixObject == null)
+		if (oAuthNonceMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.OAuthNonce", oAuthNonceMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.OAuthNonce");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, oAuthNonceMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.oAuthNonceMendixObject = oAuthNonceMendixObject;
 		this.context = context;
@@ -65,6 +67,9 @@ public class OAuthNonce
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.OAuthNonce initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -79,14 +84,16 @@ public class OAuthNonce
 
 	public static java.util.List<email_connector.proxies.OAuthNonce> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<email_connector.proxies.OAuthNonce> result = new java.util.ArrayList<email_connector.proxies.OAuthNonce>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Email_Connector.OAuthNonce" + xpathConstraint))
-			result.add(email_connector.proxies.OAuthNonce.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> email_connector.proxies.OAuthNonce.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -95,6 +102,7 @@ public class OAuthNonce
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -153,6 +161,7 @@ public class OAuthNonce
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of OAuthNonce_EmailAccount
 	 */
 	public final email_connector.proxies.EmailAccount getOAuthNonce_EmailAccount() throws com.mendix.core.CoreException
@@ -163,13 +172,15 @@ public class OAuthNonce
 	/**
 	 * @param context
 	 * @return value of OAuthNonce_EmailAccount
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.EmailAccount getOAuthNonce_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.EmailAccount result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.OAuthNonce_EmailAccount.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.EmailAccount.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -189,10 +200,11 @@ public class OAuthNonce
 	 */
 	public final void setOAuthNonce_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.EmailAccount oauthnonce_emailaccount)
 	{
-		if (oauthnonce_emailaccount == null)
+		if (oauthnonce_emailaccount == null) {
 			getMendixObject().setValue(context, MemberNames.OAuthNonce_EmailAccount.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.OAuthNonce_EmailAccount.toString(), oauthnonce_emailaccount.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -214,9 +226,9 @@ public class OAuthNonce
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.OAuthNonce that = (email_connector.proxies.OAuthNonce) obj;
@@ -236,7 +248,7 @@ public class OAuthNonce
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.OAuthNonce";
+		return entityName;
 	}
 
 	/**

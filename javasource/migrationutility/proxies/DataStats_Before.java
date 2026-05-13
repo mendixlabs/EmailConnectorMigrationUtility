@@ -29,7 +29,7 @@ public class DataStats_Before
 		ETTemplates("ETTemplates"),
 		ETErrorLogs("ETErrorLogs");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -45,15 +45,17 @@ public class DataStats_Before
 
 	public DataStats_Before(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "MigrationUtility.DataStats_Before"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected DataStats_Before(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject dataStats_BeforeMendixObject)
 	{
-		if (dataStats_BeforeMendixObject == null)
+		if (dataStats_BeforeMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("MigrationUtility.DataStats_Before", dataStats_BeforeMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a MigrationUtility.DataStats_Before");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, dataStats_BeforeMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.dataStats_BeforeMendixObject = dataStats_BeforeMendixObject;
 		this.context = context;
@@ -71,6 +73,9 @@ public class DataStats_Before
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static migrationutility.proxies.DataStats_Before initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -85,14 +90,16 @@ public class DataStats_Before
 
 	public static java.util.List<migrationutility.proxies.DataStats_Before> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<migrationutility.proxies.DataStats_Before> result = new java.util.ArrayList<migrationutility.proxies.DataStats_Before>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//MigrationUtility.DataStats_Before" + xpathConstraint))
-			result.add(migrationutility.proxies.DataStats_Before.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> migrationutility.proxies.DataStats_Before.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -101,6 +108,7 @@ public class DataStats_Before
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -429,9 +437,9 @@ public class DataStats_Before
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final migrationutility.proxies.DataStats_Before that = (migrationutility.proxies.DataStats_Before) obj;
@@ -451,7 +459,7 @@ public class DataStats_Before
 	 */
 	public static java.lang.String getType()
 	{
-		return "MigrationUtility.DataStats_Before";
+		return entityName;
 	}
 
 	/**

@@ -7,14 +7,26 @@ package mxmodelreflection.proxies.microflows;
 import java.util.HashMap;
 import java.util.Map;
 import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class Microflows
 {
+	/**
+	 * @deprecated
+	 * The default constructor of the Microflows class should not be used.
+	 * Use the static microflow invocation methods instead.
+	 */
+	@java.lang.Deprecated(since = "9.12", forRemoval = true)
+	public Microflows() {}
+
 	// These are the microflows for the MxModelReflection module
+	public static void aCT_ShowMemberPage(IContext context, mxmodelreflection.proxies.MxObjectMember _mxObjectMember)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("MxObjectMember", _mxObjectMember == null ? null : _mxObjectMember.getMendixObject());
+		Core.microflowCall("MxModelReflection.ACT_ShowMemberPage").withParams(params).execute(context);
+	}
 	public static boolean aSu_CheckMetamodel(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
@@ -50,30 +62,6 @@ public class Microflows
 		params.put("MxObjectType", _mxObjectType == null ? null : _mxObjectType.getMendixObject());
 		return (java.lang.Boolean) Core.microflowCall("MxModelReflection.BDe_MxObjectType").withParams(params).execute(context);
 	}
-	public static void ch_FindMember(IContext context, mxmodelreflection.proxies.Token _token)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("Token", _token == null ? null : _token.getMendixObject());
-		Core.microflowCall("MxModelReflection.Ch_FindMember").withParams(params).execute(context);
-	}
-	public static void ch_FindMemberReference(IContext context, mxmodelreflection.proxies.Token _token)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("Token", _token == null ? null : _token.getMendixObject());
-		Core.microflowCall("MxModelReflection.Ch_FindMemberReference").withParams(params).execute(context);
-	}
-	public static void ch_FindObjectTypeReference(IContext context, mxmodelreflection.proxies.Token _token)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("Token", _token == null ? null : _token.getMendixObject());
-		Core.microflowCall("MxModelReflection.Ch_FindObjectTypeReference").withParams(params).execute(context);
-	}
-	public static void ch_FindReference(IContext context, mxmodelreflection.proxies.Token _token)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("Token", _token == null ? null : _token.getMendixObject());
-		Core.microflowCall("MxModelReflection.Ch_FindReference").withParams(params).execute(context);
-	}
 	public static void ch_Member(IContext context, mxmodelreflection.proxies.Token _token)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
@@ -98,18 +86,29 @@ public class Microflows
 		params.put("Token", _token == null ? null : _token.getMendixObject());
 		Core.microflowCall("MxModelReflection.Ch_Reference").withParams(params).execute(context);
 	}
+	public static void deleteDbSizeEstimate(IContext context, mxmodelreflection.proxies.DbSizeEstimate _dbSizeEstimate)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("DbSizeEstimate", _dbSizeEstimate == null ? null : _dbSizeEstimate.getMendixObject());
+		Core.microflowCall("MxModelReflection.DeleteDbSizeEstimate").withParams(params).execute(context);
+	}
+	public static void deleteToken(IContext context, mxmodelreflection.proxies.Token _token)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("Token", _token == null ? null : _token.getMendixObject());
+		Core.microflowCall("MxModelReflection.DeleteToken").withParams(params).execute(context);
+	}
 	public static java.util.List<mxmodelreflection.proxies.Module> dSL_Modules(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		java.util.List<IMendixObject> objs = Core.microflowCall("MxModelReflection.DSL_Modules").withParams(params).execute(context);
-		java.util.List<mxmodelreflection.proxies.Module> result = null;
-		if (objs != null)
-		{
-			result = new java.util.ArrayList<>();
-			for (IMendixObject obj : objs)
-				result.add(mxmodelreflection.proxies.Module.initialize(context, obj));
+		if (objs == null) {
+			return null;
+		} else {
+			return objs.stream()
+				.map(obj -> mxmodelreflection.proxies.Module.initialize(context, obj))
+				.collect(java.util.stream.Collectors.toList());
 		}
-		return result;
 	}
 	public static mxmodelreflection.proxies.InheritsFromContainer dSO_InheritsFromContainer(IContext context, mxmodelreflection.proxies.MxObjectType _mxObjectType)
 	{
@@ -117,6 +116,20 @@ public class Microflows
 		params.put("MxObjectType", _mxObjectType == null ? null : _mxObjectType.getMendixObject());
 		IMendixObject result = (IMendixObject)Core.microflowCall("MxModelReflection.DSO_InheritsFromContainer").withParams(params).execute(context);
 		return result == null ? null : mxmodelreflection.proxies.InheritsFromContainer.initialize(context, result);
+	}
+	public static mxmodelreflection.proxies.StringValue enumValueCaptions(IContext context, mxmodelreflection.proxies.MxObjectEnumValue _mxObjectEnumValue)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("MxObjectEnumValue", _mxObjectEnumValue == null ? null : _mxObjectEnumValue.getMendixObject());
+		IMendixObject result = (IMendixObject)Core.microflowCall("MxModelReflection.EnumValueCaptions").withParams(params).execute(context);
+		return result == null ? null : mxmodelreflection.proxies.StringValue.initialize(context, result);
+	}
+	public static mxmodelreflection.proxies.StringValue enumValueLanguages(IContext context, mxmodelreflection.proxies.MxObjectEnumValue _mxObjectEnumValue)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("MxObjectEnumValue", _mxObjectEnumValue == null ? null : _mxObjectEnumValue.getMendixObject());
+		IMendixObject result = (IMendixObject)Core.microflowCall("MxModelReflection.EnumValueLanguages").withParams(params).execute(context);
+		return result == null ? null : mxmodelreflection.proxies.StringValue.initialize(context, result);
 	}
 	public static mxmodelreflection.proxies.MxObjectMember findMember(IContext context, java.lang.String _memberSearchString, mxmodelreflection.proxies.MxObjectType _mxObjectType)
 	{
@@ -202,5 +215,12 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("DbSizeEstimate", _dbSizeEstimate == null ? null : _dbSizeEstimate.getMendixObject());
 		Core.microflowCall("MxModelReflection.OC_FindObjectType").withParams(params).execute(context);
+	}
+	public static mxmodelreflection.proxies.StringValue referenceObjects(IContext context, mxmodelreflection.proxies.MxObjectReference _mxObjectReference)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("MxObjectReference", _mxObjectReference == null ? null : _mxObjectReference.getMendixObject());
+		IMendixObject result = (IMendixObject)Core.microflowCall("MxModelReflection.ReferenceObjects").withParams(params).execute(context);
+		return result == null ? null : mxmodelreflection.proxies.StringValue.initialize(context, result);
 	}
 }

@@ -29,7 +29,7 @@ public class OAuthErrors
 		ErrorCodes("ErrorCodes"),
 		OAuthErrors_Session("EmailTemplate.OAuthErrors_Session");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -45,15 +45,17 @@ public class OAuthErrors
 
 	public OAuthErrors(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "EmailTemplate.OAuthErrors"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected OAuthErrors(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject oAuthErrorsMendixObject)
 	{
-		if (oAuthErrorsMendixObject == null)
+		if (oAuthErrorsMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("EmailTemplate.OAuthErrors", oAuthErrorsMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a EmailTemplate.OAuthErrors");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, oAuthErrorsMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.oAuthErrorsMendixObject = oAuthErrorsMendixObject;
 		this.context = context;
@@ -71,6 +73,9 @@ public class OAuthErrors
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static emailtemplate.proxies.OAuthErrors initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -85,14 +90,16 @@ public class OAuthErrors
 
 	public static java.util.List<emailtemplate.proxies.OAuthErrors> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<emailtemplate.proxies.OAuthErrors> result = new java.util.ArrayList<emailtemplate.proxies.OAuthErrors>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//EmailTemplate.OAuthErrors" + xpathConstraint))
-			result.add(emailtemplate.proxies.OAuthErrors.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> emailtemplate.proxies.OAuthErrors.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -101,6 +108,7 @@ public class OAuthErrors
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -375,6 +383,7 @@ public class OAuthErrors
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of OAuthErrors_Session
 	 */
 	public final system.proxies.Session getOAuthErrors_Session() throws com.mendix.core.CoreException
@@ -385,13 +394,15 @@ public class OAuthErrors
 	/**
 	 * @param context
 	 * @return value of OAuthErrors_Session
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final system.proxies.Session getOAuthErrors_Session(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		system.proxies.Session result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.OAuthErrors_Session.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = system.proxies.Session.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -411,10 +422,11 @@ public class OAuthErrors
 	 */
 	public final void setOAuthErrors_Session(com.mendix.systemwideinterfaces.core.IContext context, system.proxies.Session oautherrors_session)
 	{
-		if (oautherrors_session == null)
+		if (oautherrors_session == null) {
 			getMendixObject().setValue(context, MemberNames.OAuthErrors_Session.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.OAuthErrors_Session.toString(), oautherrors_session.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -436,9 +448,9 @@ public class OAuthErrors
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final emailtemplate.proxies.OAuthErrors that = (emailtemplate.proxies.OAuthErrors) obj;
@@ -458,7 +470,7 @@ public class OAuthErrors
 	 */
 	public static java.lang.String getType()
 	{
-		return "EmailTemplate.OAuthErrors";
+		return entityName;
 	}
 
 	/**

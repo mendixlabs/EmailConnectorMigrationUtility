@@ -61,36 +61,28 @@ public class GeneratePGPKeyRing extends CustomJavaAction<java.lang.Boolean>
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.CertPrivateKey = __CertPrivateKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __CertPrivateKey);
+		this.CertPrivateKey = this.__CertPrivateKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __CertPrivateKey);
 
-		this.CertPublicKey = __CertPublicKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __CertPublicKey);
+		this.CertPublicKey = this.__CertPublicKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __CertPublicKey);
 
 		// BEGIN USER CODE
-		
-		//Do we generate all files as ASCII armored files?
-		boolean armor = true;
-
-
 		char pass[] = this.CertPrivateKey.getPassPhrase_Plain().toCharArray();
 		PGPKeyRingGenerator krgen = generateKeyRingGenerator(this.CertPrivateKey.getEmailAddress(), pass);
-		
-		
+
 		// Generate public key ring, dump to file.
 		String tempASC = PGPFileProcessor.getNewTempFile("pub");
 		PGPPublicKeyRing pkr = krgen.generatePublicKeyRing();
 		
 		String pubFilename = "publicKey.pub";
-		OutputStream pubout = new BufferedOutputStream(new FileOutputStream(tempASC));
-		if( armor ) {
-			pubout = new ArmoredOutputStream(pubout);
-			pubFilename = "publicKey.asc";
+		try (OutputStream nestedStream = new BufferedOutputStream(new FileOutputStream(tempASC))) {
+			try (OutputStream pubout = new ArmoredOutputStream(nestedStream)) {
+				pubFilename = "publicKey.asc";
+				pkr.encode(pubout);
+			}
 		}
-		pkr.encode(pubout);
-		pubout.close();
 
 		Core.storeFileDocumentContent(getContext(), this.CertPublicKey.getMendixObject(), pubFilename, new FileInputStream(tempASC));
 		(new File(tempASC)).delete();
-
 
 		// Generate private key, dump to file.
 		String tempSKR = PGPFileProcessor.getNewTempFile("skr");
@@ -98,10 +90,8 @@ public class GeneratePGPKeyRing extends CustomJavaAction<java.lang.Boolean>
 
 		String skrFilename = "privateKey.skr";
 		OutputStream secout = new BufferedOutputStream(new FileOutputStream(tempSKR));
-		if ( armor ) {
-			secout = new ArmoredOutputStream(secout);
-			skrFilename = "privateKey.asc";
-		}
+		secout = new ArmoredOutputStream(secout);
+		skrFilename = "privateKey.asc";
 
 		skr.encode(secout);
 		secout.close();
@@ -109,19 +99,13 @@ public class GeneratePGPKeyRing extends CustomJavaAction<java.lang.Boolean>
 		Core.storeFileDocumentContent(getContext(), this.CertPrivateKey.getMendixObject(), skrFilename, new FileInputStream(tempSKR));
 		(new File(tempSKR)).delete();
 
-		
-		// Random code stuff 
-		// PGPSecretKey skey = new Pg
-		// PGPSecretKeyRing.insertSecretKey(skr, )
-		// skr.getSecretKey().encode(secout);
-		
-
 		return true;
 		// END USER CODE
 	}
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

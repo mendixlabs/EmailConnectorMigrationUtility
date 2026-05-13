@@ -21,15 +21,18 @@ public class EmailProvider
 	public enum MemberNames
 	{
 		Username("Username"),
+		MailAddress("MailAddress"),
 		Password("Password"),
 		ReceiveEmails("ReceiveEmails"),
 		SendEmails("SendEmails"),
 		FromDisplayName("FromDisplayName"),
 		isOAuthUsed("isOAuthUsed"),
+		IsSharedMailbox("IsSharedMailbox"),
+		AuthType("AuthType"),
 		SelectedConfiguration_EmailProvider("Email_Connector.SelectedConfiguration_EmailProvider"),
 		EmailProvider_OAuthProvider("Email_Connector.EmailProvider_OAuthProvider");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -45,15 +48,17 @@ public class EmailProvider
 
 	public EmailProvider(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.EmailProvider"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected EmailProvider(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject emailProviderMendixObject)
 	{
-		if (emailProviderMendixObject == null)
+		if (emailProviderMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.EmailProvider", emailProviderMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.EmailProvider");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, emailProviderMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.emailProviderMendixObject = emailProviderMendixObject;
 		this.context = context;
@@ -71,6 +76,9 @@ public class EmailProvider
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.EmailProvider initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -85,6 +93,7 @@ public class EmailProvider
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -93,6 +102,7 @@ public class EmailProvider
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -148,6 +158,42 @@ public class EmailProvider
 	public final void setUsername(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String username)
 	{
 		getMendixObject().setValue(context, MemberNames.Username.toString(), username);
+	}
+
+	/**
+	 * @return value of MailAddress
+	 */
+	public final java.lang.String getMailAddress()
+	{
+		return getMailAddress(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of MailAddress
+	 */
+	public final java.lang.String getMailAddress(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.MailAddress.toString());
+	}
+
+	/**
+	 * Set value of MailAddress
+	 * @param mailaddress
+	 */
+	public final void setMailAddress(java.lang.String mailaddress)
+	{
+		setMailAddress(getContext(), mailaddress);
+	}
+
+	/**
+	 * Set value of MailAddress
+	 * @param context
+	 * @param mailaddress
+	 */
+	public final void setMailAddress(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String mailaddress)
+	{
+		getMendixObject().setValue(context, MemberNames.MailAddress.toString(), mailaddress);
 	}
 
 	/**
@@ -331,6 +377,88 @@ public class EmailProvider
 	}
 
 	/**
+	 * @return value of IsSharedMailbox
+	 */
+	public final java.lang.Boolean getIsSharedMailbox()
+	{
+		return getIsSharedMailbox(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of IsSharedMailbox
+	 */
+	public final java.lang.Boolean getIsSharedMailbox(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.IsSharedMailbox.toString());
+	}
+
+	/**
+	 * Set value of IsSharedMailbox
+	 * @param issharedmailbox
+	 */
+	public final void setIsSharedMailbox(java.lang.Boolean issharedmailbox)
+	{
+		setIsSharedMailbox(getContext(), issharedmailbox);
+	}
+
+	/**
+	 * Set value of IsSharedMailbox
+	 * @param context
+	 * @param issharedmailbox
+	 */
+	public final void setIsSharedMailbox(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean issharedmailbox)
+	{
+		getMendixObject().setValue(context, MemberNames.IsSharedMailbox.toString(), issharedmailbox);
+	}
+
+	/**
+	 * Set value of AuthType
+	 * @param authtype
+	 */
+	public final email_connector.proxies.ENUM_OAuthType getAuthType()
+	{
+		return getAuthType(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of AuthType
+	 */
+	public final email_connector.proxies.ENUM_OAuthType getAuthType(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		Object obj = getMendixObject().getValue(context, MemberNames.AuthType.toString());
+		if (obj == null) {
+			return null;
+		}
+		return email_connector.proxies.ENUM_OAuthType.valueOf((java.lang.String) obj);
+	}
+
+	/**
+	 * Set value of AuthType
+	 * @param authtype
+	 */
+	public final void setAuthType(email_connector.proxies.ENUM_OAuthType authtype)
+	{
+		setAuthType(getContext(), authtype);
+	}
+
+	/**
+	 * Set value of AuthType
+	 * @param context
+	 * @param authtype
+	 */
+	public final void setAuthType(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.ENUM_OAuthType authtype)
+	{
+		if (authtype != null) {
+			getMendixObject().setValue(context, MemberNames.AuthType.toString(), authtype.toString());
+		} else {
+			getMendixObject().setValue(context, MemberNames.AuthType.toString(), null);
+		}
+	}
+
+	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of SelectedConfiguration_EmailProvider
 	 */
 	public final email_connector.proxies.SelectedConfiguration getSelectedConfiguration_EmailProvider() throws com.mendix.core.CoreException
@@ -341,13 +469,15 @@ public class EmailProvider
 	/**
 	 * @param context
 	 * @return value of SelectedConfiguration_EmailProvider
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.SelectedConfiguration getSelectedConfiguration_EmailProvider(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.SelectedConfiguration result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.SelectedConfiguration_EmailProvider.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.SelectedConfiguration.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -367,13 +497,15 @@ public class EmailProvider
 	 */
 	public final void setSelectedConfiguration_EmailProvider(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.SelectedConfiguration selectedconfiguration_emailprovider)
 	{
-		if (selectedconfiguration_emailprovider == null)
+		if (selectedconfiguration_emailprovider == null) {
 			getMendixObject().setValue(context, MemberNames.SelectedConfiguration_EmailProvider.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.SelectedConfiguration_EmailProvider.toString(), selectedconfiguration_emailprovider.getMendixObject().getId());
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of EmailProvider_OAuthProvider
 	 */
 	public final email_connector.proxies.OAuthProvider getEmailProvider_OAuthProvider() throws com.mendix.core.CoreException
@@ -384,13 +516,15 @@ public class EmailProvider
 	/**
 	 * @param context
 	 * @return value of EmailProvider_OAuthProvider
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.OAuthProvider getEmailProvider_OAuthProvider(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.OAuthProvider result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.EmailProvider_OAuthProvider.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.OAuthProvider.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -410,10 +544,11 @@ public class EmailProvider
 	 */
 	public final void setEmailProvider_OAuthProvider(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.OAuthProvider emailprovider_oauthprovider)
 	{
-		if (emailprovider_oauthprovider == null)
+		if (emailprovider_oauthprovider == null) {
 			getMendixObject().setValue(context, MemberNames.EmailProvider_OAuthProvider.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EmailProvider_OAuthProvider.toString(), emailprovider_oauthprovider.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -435,9 +570,9 @@ public class EmailProvider
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.EmailProvider that = (email_connector.proxies.EmailProvider) obj;
@@ -457,7 +592,7 @@ public class EmailProvider
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.EmailProvider";
+		return entityName;
 	}
 
 	/**

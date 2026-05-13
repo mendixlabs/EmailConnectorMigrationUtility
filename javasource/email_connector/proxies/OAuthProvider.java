@@ -28,9 +28,11 @@ public class OAuthProvider
 		TokenEndpoint("TokenEndpoint"),
 		EmailDomain("EmailDomain"),
 		CallbackOperationPath("CallbackOperationPath"),
-		CallbackURL("CallbackURL");
+		CallbackURL("CallbackURL"),
+		OAuthType("OAuthType"),
+		TenantID("TenantID");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -46,15 +48,17 @@ public class OAuthProvider
 
 	public OAuthProvider(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.OAuthProvider"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected OAuthProvider(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject oAuthProviderMendixObject)
 	{
-		if (oAuthProviderMendixObject == null)
+		if (oAuthProviderMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.OAuthProvider", oAuthProviderMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.OAuthProvider");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, oAuthProviderMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.oAuthProviderMendixObject = oAuthProviderMendixObject;
 		this.context = context;
@@ -72,6 +76,9 @@ public class OAuthProvider
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.OAuthProvider initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -86,14 +93,16 @@ public class OAuthProvider
 
 	public static java.util.List<email_connector.proxies.OAuthProvider> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<email_connector.proxies.OAuthProvider> result = new java.util.ArrayList<email_connector.proxies.OAuthProvider>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Email_Connector.OAuthProvider" + xpathConstraint))
-			result.add(email_connector.proxies.OAuthProvider.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> email_connector.proxies.OAuthProvider.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -102,6 +111,7 @@ public class OAuthProvider
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -448,6 +458,87 @@ public class OAuthProvider
 	}
 
 	/**
+	 * Set value of OAuthType
+	 * @param oauthtype
+	 */
+	public final email_connector.proxies.ENUM_OAuthType getOAuthType()
+	{
+		return getOAuthType(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of OAuthType
+	 */
+	public final email_connector.proxies.ENUM_OAuthType getOAuthType(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		Object obj = getMendixObject().getValue(context, MemberNames.OAuthType.toString());
+		if (obj == null) {
+			return null;
+		}
+		return email_connector.proxies.ENUM_OAuthType.valueOf((java.lang.String) obj);
+	}
+
+	/**
+	 * Set value of OAuthType
+	 * @param oauthtype
+	 */
+	public final void setOAuthType(email_connector.proxies.ENUM_OAuthType oauthtype)
+	{
+		setOAuthType(getContext(), oauthtype);
+	}
+
+	/**
+	 * Set value of OAuthType
+	 * @param context
+	 * @param oauthtype
+	 */
+	public final void setOAuthType(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.ENUM_OAuthType oauthtype)
+	{
+		if (oauthtype != null) {
+			getMendixObject().setValue(context, MemberNames.OAuthType.toString(), oauthtype.toString());
+		} else {
+			getMendixObject().setValue(context, MemberNames.OAuthType.toString(), null);
+		}
+	}
+
+	/**
+	 * @return value of TenantID
+	 */
+	public final java.lang.String getTenantID()
+	{
+		return getTenantID(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of TenantID
+	 */
+	public final java.lang.String getTenantID(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.TenantID.toString());
+	}
+
+	/**
+	 * Set value of TenantID
+	 * @param tenantid
+	 */
+	public final void setTenantID(java.lang.String tenantid)
+	{
+		setTenantID(getContext(), tenantid);
+	}
+
+	/**
+	 * Set value of TenantID
+	 * @param context
+	 * @param tenantid
+	 */
+	public final void setTenantID(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String tenantid)
+	{
+		getMendixObject().setValue(context, MemberNames.TenantID.toString(), tenantid);
+	}
+
+	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
 	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
@@ -466,9 +557,9 @@ public class OAuthProvider
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.OAuthProvider that = (email_connector.proxies.OAuthProvider) obj;
@@ -488,7 +579,7 @@ public class OAuthProvider
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.OAuthProvider";
+		return entityName;
 	}
 
 	/**

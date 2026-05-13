@@ -25,7 +25,7 @@ public class Pk12Certificate extends system.proxies.FileDocument
 		Size("Size"),
 		Pk12Certificate_EmailAccount("Email_Connector.Pk12Certificate_EmailAccount");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -41,14 +41,15 @@ public class Pk12Certificate extends system.proxies.FileDocument
 
 	public Pk12Certificate(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.Pk12Certificate"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected Pk12Certificate(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject pk12CertificateMendixObject)
 	{
 		super(context, pk12CertificateMendixObject);
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.Pk12Certificate", pk12CertificateMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.Pk12Certificate");
+		if (!com.mendix.core.Core.isSubClassOf(entityName, pk12CertificateMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 	}
 
 	/**
@@ -63,6 +64,9 @@ public class Pk12Certificate extends system.proxies.FileDocument
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.Pk12Certificate initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -77,10 +81,11 @@ public class Pk12Certificate extends system.proxies.FileDocument
 
 	public static java.util.List<email_connector.proxies.Pk12Certificate> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<email_connector.proxies.Pk12Certificate> result = new java.util.ArrayList<email_connector.proxies.Pk12Certificate>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Email_Connector.Pk12Certificate" + xpathConstraint))
-			result.add(email_connector.proxies.Pk12Certificate.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> email_connector.proxies.Pk12Certificate.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
@@ -120,6 +125,7 @@ public class Pk12Certificate extends system.proxies.FileDocument
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of Pk12Certificate_EmailAccount
 	 */
 	public final email_connector.proxies.EmailAccount getPk12Certificate_EmailAccount() throws com.mendix.core.CoreException
@@ -130,13 +136,15 @@ public class Pk12Certificate extends system.proxies.FileDocument
 	/**
 	 * @param context
 	 * @return value of Pk12Certificate_EmailAccount
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.EmailAccount getPk12Certificate_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.EmailAccount result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Pk12Certificate_EmailAccount.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.EmailAccount.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -156,18 +164,19 @@ public class Pk12Certificate extends system.proxies.FileDocument
 	 */
 	public final void setPk12Certificate_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.EmailAccount pk12certificate_emailaccount)
 	{
-		if (pk12certificate_emailaccount == null)
+		if (pk12certificate_emailaccount == null) {
 			getMendixObject().setValue(context, MemberNames.Pk12Certificate_EmailAccount.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Pk12Certificate_EmailAccount.toString(), pk12certificate_emailaccount.getMendixObject().getId());
+		}
 	}
 
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.Pk12Certificate that = (email_connector.proxies.Pk12Certificate) obj;
@@ -187,7 +196,7 @@ public class Pk12Certificate extends system.proxies.FileDocument
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.Pk12Certificate";
+		return entityName;
 	}
 
 	/**

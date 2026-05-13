@@ -30,7 +30,7 @@ public class EmailConnectorLog
 		EmailConnectorLog_EmailMessage("Email_Connector.EmailConnectorLog_EmailMessage"),
 		EmailConnectorLog_EmailAccount("Email_Connector.EmailConnectorLog_EmailAccount");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -46,15 +46,17 @@ public class EmailConnectorLog
 
 	public EmailConnectorLog(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.EmailConnectorLog"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected EmailConnectorLog(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject emailConnectorLogMendixObject)
 	{
-		if (emailConnectorLogMendixObject == null)
+		if (emailConnectorLogMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.EmailConnectorLog", emailConnectorLogMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.EmailConnectorLog");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, emailConnectorLogMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.emailConnectorLogMendixObject = emailConnectorLogMendixObject;
 		this.context = context;
@@ -72,6 +74,9 @@ public class EmailConnectorLog
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.EmailConnectorLog initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -86,14 +91,16 @@ public class EmailConnectorLog
 
 	public static java.util.List<email_connector.proxies.EmailConnectorLog> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<email_connector.proxies.EmailConnectorLog> result = new java.util.ArrayList<email_connector.proxies.EmailConnectorLog>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Email_Connector.EmailConnectorLog" + xpathConstraint))
-			result.add(email_connector.proxies.EmailConnectorLog.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> email_connector.proxies.EmailConnectorLog.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -102,6 +109,7 @@ public class EmailConnectorLog
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -175,9 +183,9 @@ public class EmailConnectorLog
 	public final email_connector.proxies.ENUM_LogType getLogtype(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.Logtype.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return email_connector.proxies.ENUM_LogType.valueOf((java.lang.String) obj);
 	}
 
@@ -197,10 +205,11 @@ public class EmailConnectorLog
 	 */
 	public final void setLogtype(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.ENUM_LogType logtype)
 	{
-		if (logtype != null)
+		if (logtype != null) {
 			getMendixObject().setValue(context, MemberNames.Logtype.toString(), logtype.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Logtype.toString(), null);
+		}
 	}
 
 	/**
@@ -384,6 +393,7 @@ public class EmailConnectorLog
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of EmailConnectorLog_EmailMessage
 	 */
 	public final email_connector.proxies.EmailMessage getEmailConnectorLog_EmailMessage() throws com.mendix.core.CoreException
@@ -394,13 +404,15 @@ public class EmailConnectorLog
 	/**
 	 * @param context
 	 * @return value of EmailConnectorLog_EmailMessage
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.EmailMessage getEmailConnectorLog_EmailMessage(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.EmailMessage result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.EmailConnectorLog_EmailMessage.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.EmailMessage.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -420,13 +432,15 @@ public class EmailConnectorLog
 	 */
 	public final void setEmailConnectorLog_EmailMessage(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.EmailMessage emailconnectorlog_emailmessage)
 	{
-		if (emailconnectorlog_emailmessage == null)
+		if (emailconnectorlog_emailmessage == null) {
 			getMendixObject().setValue(context, MemberNames.EmailConnectorLog_EmailMessage.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EmailConnectorLog_EmailMessage.toString(), emailconnectorlog_emailmessage.getMendixObject().getId());
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of EmailConnectorLog_EmailAccount
 	 */
 	public final email_connector.proxies.EmailAccount getEmailConnectorLog_EmailAccount() throws com.mendix.core.CoreException
@@ -437,13 +451,15 @@ public class EmailConnectorLog
 	/**
 	 * @param context
 	 * @return value of EmailConnectorLog_EmailAccount
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.EmailAccount getEmailConnectorLog_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.EmailAccount result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.EmailConnectorLog_EmailAccount.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.EmailAccount.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -463,10 +479,11 @@ public class EmailConnectorLog
 	 */
 	public final void setEmailConnectorLog_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.EmailAccount emailconnectorlog_emailaccount)
 	{
-		if (emailconnectorlog_emailaccount == null)
+		if (emailconnectorlog_emailaccount == null) {
 			getMendixObject().setValue(context, MemberNames.EmailConnectorLog_EmailAccount.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EmailConnectorLog_EmailAccount.toString(), emailconnectorlog_emailaccount.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -488,9 +505,9 @@ public class EmailConnectorLog
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.EmailConnectorLog that = (email_connector.proxies.EmailConnectorLog) obj;
@@ -510,7 +527,7 @@ public class EmailConnectorLog
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.EmailConnectorLog";
+		return entityName;
 	}
 
 	/**

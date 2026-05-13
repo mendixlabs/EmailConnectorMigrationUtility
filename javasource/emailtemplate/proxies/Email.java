@@ -39,7 +39,7 @@ public class Email
 		Status("Status"),
 		Email_EmailTemplate("EmailTemplate.Email_EmailTemplate");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -55,15 +55,17 @@ public class Email
 
 	public Email(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "EmailTemplate.Email"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected Email(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject emailMendixObject)
 	{
-		if (emailMendixObject == null)
+		if (emailMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("EmailTemplate.Email", emailMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a EmailTemplate.Email");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, emailMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.emailMendixObject = emailMendixObject;
 		this.context = context;
@@ -81,6 +83,9 @@ public class Email
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static emailtemplate.proxies.Email initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -95,14 +100,16 @@ public class Email
 
 	public static java.util.List<emailtemplate.proxies.Email> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<emailtemplate.proxies.Email> result = new java.util.ArrayList<emailtemplate.proxies.Email>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//EmailTemplate.Email" + xpathConstraint))
-			result.add(emailtemplate.proxies.Email.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> emailtemplate.proxies.Email.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -111,6 +118,7 @@ public class Email
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -724,9 +732,9 @@ public class Email
 	public final emailtemplate.proxies.Status getStatus(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.Status.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return emailtemplate.proxies.Status.valueOf((java.lang.String) obj);
 	}
 
@@ -746,13 +754,15 @@ public class Email
 	 */
 	public final void setStatus(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.Status status)
 	{
-		if (status != null)
+		if (status != null) {
 			getMendixObject().setValue(context, MemberNames.Status.toString(), status.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Status.toString(), null);
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of Email_EmailTemplate
 	 */
 	public final emailtemplate.proxies.EmailTemplate getEmail_EmailTemplate() throws com.mendix.core.CoreException
@@ -763,13 +773,15 @@ public class Email
 	/**
 	 * @param context
 	 * @return value of Email_EmailTemplate
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final emailtemplate.proxies.EmailTemplate getEmail_EmailTemplate(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		emailtemplate.proxies.EmailTemplate result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Email_EmailTemplate.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = emailtemplate.proxies.EmailTemplate.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -789,10 +801,11 @@ public class Email
 	 */
 	public final void setEmail_EmailTemplate(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.EmailTemplate email_emailtemplate)
 	{
-		if (email_emailtemplate == null)
+		if (email_emailtemplate == null) {
 			getMendixObject().setValue(context, MemberNames.Email_EmailTemplate.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Email_EmailTemplate.toString(), email_emailtemplate.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -814,9 +827,9 @@ public class Email
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final emailtemplate.proxies.Email that = (emailtemplate.proxies.Email) obj;
@@ -836,7 +849,7 @@ public class Email
 	 */
 	public static java.lang.String getType()
 	{
-		return "EmailTemplate.Email";
+		return entityName;
 	}
 
 	/**

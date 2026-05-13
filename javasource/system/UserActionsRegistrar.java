@@ -13,6 +13,7 @@ public class UserActionsRegistrar
     registrator.registerUserAction(email_connector.actions.ConvertHTMLBodyToPlainText.class);
     registrator.registerUserAction(email_connector.actions.CopyAttachmentContent.class);
     registrator.registerUserAction(email_connector.actions.CreateEmailFromTemplate.class);
+    registrator.registerUserAction(email_connector.actions.DeleteDuplicateMxReflectionObject.class);
     registrator.registerUserAction(email_connector.actions.EndTransaction.class);
     registrator.registerUserAction(email_connector.actions.GenerateOAuthNonce.class);
     registrator.registerUserAction(email_connector.actions.GetAppRootURL.class);
@@ -39,6 +40,11 @@ public class UserActionsRegistrar
     registrator.registerUserAction(encryption.actions.PGPDecryptDocument.class);
     registrator.registerUserAction(encryption.actions.PGPEncryptDocument.class);
     registrator.registerUserAction(encryption.actions.ValidatePrivateKeyRing.class);
+    registrator.registerUserAction(feedbackmodule.actions.ValidateEmail.class);
+    registrator.registerUserAction(feedbackmodule.actions.XSS_Sanitizer.class);
+    registrator.registerUserAction(mxmodelreflection.actions.JA_EnumValueCaptions.class);
+    registrator.registerUserAction(mxmodelreflection.actions.JA_EnumValueLanguages.class);
+    registrator.registerUserAction(mxmodelreflection.actions.JA_ReferenceObjects.class);
     registrator.registerUserAction(mxmodelreflection.actions.ReplaceToken.class);
     registrator.registerUserAction(mxmodelreflection.actions.SyncObjects.class);
     registrator.registerUserAction(mxmodelreflection.actions.TestThePattern.class);

@@ -23,9 +23,11 @@ public class MigrationConfig
 		MigrateAccounts("MigrateAccounts"),
 		MigrateEmailTemplates("MigrateEmailTemplates"),
 		MigrateEmails("MigrateEmails"),
-		MigrateErrorLogs("MigrateErrorLogs");
+		MigrateErrorLogs("MigrateErrorLogs"),
+		SetAssociation("SetAssociation"),
+		AssociationAccount("AssociationAccount");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -41,15 +43,17 @@ public class MigrationConfig
 
 	public MigrationConfig(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "MigrationUtility.MigrationConfig"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected MigrationConfig(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject migrationConfigMendixObject)
 	{
-		if (migrationConfigMendixObject == null)
+		if (migrationConfigMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("MigrationUtility.MigrationConfig", migrationConfigMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a MigrationUtility.MigrationConfig");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, migrationConfigMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.migrationConfigMendixObject = migrationConfigMendixObject;
 		this.context = context;
@@ -67,6 +71,9 @@ public class MigrationConfig
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static migrationutility.proxies.MigrationConfig initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -81,6 +88,7 @@ public class MigrationConfig
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -89,6 +97,7 @@ public class MigrationConfig
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -255,6 +264,78 @@ public class MigrationConfig
 	}
 
 	/**
+	 * @return value of SetAssociation
+	 */
+	public final java.lang.Boolean getSetAssociation()
+	{
+		return getSetAssociation(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of SetAssociation
+	 */
+	public final java.lang.Boolean getSetAssociation(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.SetAssociation.toString());
+	}
+
+	/**
+	 * Set value of SetAssociation
+	 * @param setassociation
+	 */
+	public final void setSetAssociation(java.lang.Boolean setassociation)
+	{
+		setSetAssociation(getContext(), setassociation);
+	}
+
+	/**
+	 * Set value of SetAssociation
+	 * @param context
+	 * @param setassociation
+	 */
+	public final void setSetAssociation(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean setassociation)
+	{
+		getMendixObject().setValue(context, MemberNames.SetAssociation.toString(), setassociation);
+	}
+
+	/**
+	 * @return value of AssociationAccount
+	 */
+	public final java.lang.String getAssociationAccount()
+	{
+		return getAssociationAccount(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of AssociationAccount
+	 */
+	public final java.lang.String getAssociationAccount(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.AssociationAccount.toString());
+	}
+
+	/**
+	 * Set value of AssociationAccount
+	 * @param associationaccount
+	 */
+	public final void setAssociationAccount(java.lang.String associationaccount)
+	{
+		setAssociationAccount(getContext(), associationaccount);
+	}
+
+	/**
+	 * Set value of AssociationAccount
+	 * @param context
+	 * @param associationaccount
+	 */
+	public final void setAssociationAccount(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String associationaccount)
+	{
+		getMendixObject().setValue(context, MemberNames.AssociationAccount.toString(), associationaccount);
+	}
+
+	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
 	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
@@ -273,9 +354,9 @@ public class MigrationConfig
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final migrationutility.proxies.MigrationConfig that = (migrationutility.proxies.MigrationConfig) obj;
@@ -295,7 +376,7 @@ public class MigrationConfig
 	 */
 	public static java.lang.String getType()
 	{
-		return "MigrationUtility.MigrationConfig";
+		return entityName;
 	}
 
 	/**

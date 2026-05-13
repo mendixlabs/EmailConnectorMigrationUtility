@@ -27,7 +27,7 @@ public class OAuthPayload
 		reauthAccountId("reauthAccountId"),
 		OAuthPayload_Session("EmailTemplate.OAuthPayload_Session");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -43,15 +43,17 @@ public class OAuthPayload
 
 	public OAuthPayload(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "EmailTemplate.OAuthPayload"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected OAuthPayload(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject oAuthPayloadMendixObject)
 	{
-		if (oAuthPayloadMendixObject == null)
+		if (oAuthPayloadMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("EmailTemplate.OAuthPayload", oAuthPayloadMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a EmailTemplate.OAuthPayload");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, oAuthPayloadMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.oAuthPayloadMendixObject = oAuthPayloadMendixObject;
 		this.context = context;
@@ -69,6 +71,9 @@ public class OAuthPayload
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static emailtemplate.proxies.OAuthPayload initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -83,14 +88,16 @@ public class OAuthPayload
 
 	public static java.util.List<emailtemplate.proxies.OAuthPayload> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<emailtemplate.proxies.OAuthPayload> result = new java.util.ArrayList<emailtemplate.proxies.OAuthPayload>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//EmailTemplate.OAuthPayload" + xpathConstraint))
-			result.add(emailtemplate.proxies.OAuthPayload.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> emailtemplate.proxies.OAuthPayload.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -99,6 +106,7 @@ public class OAuthPayload
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -208,9 +216,9 @@ public class OAuthPayload
 	public final emailtemplate.proxies.SupportedOAuthProvider getprovider(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.provider.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return emailtemplate.proxies.SupportedOAuthProvider.valueOf((java.lang.String) obj);
 	}
 
@@ -230,10 +238,11 @@ public class OAuthPayload
 	 */
 	public final void setprovider(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.SupportedOAuthProvider provider)
 	{
-		if (provider != null)
+		if (provider != null) {
 			getMendixObject().setValue(context, MemberNames.provider.toString(), provider.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.provider.toString(), null);
+		}
 	}
 
 	/**
@@ -309,6 +318,7 @@ public class OAuthPayload
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of OAuthPayload_Session
 	 */
 	public final system.proxies.Session getOAuthPayload_Session() throws com.mendix.core.CoreException
@@ -319,13 +329,15 @@ public class OAuthPayload
 	/**
 	 * @param context
 	 * @return value of OAuthPayload_Session
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final system.proxies.Session getOAuthPayload_Session(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		system.proxies.Session result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.OAuthPayload_Session.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = system.proxies.Session.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -345,10 +357,11 @@ public class OAuthPayload
 	 */
 	public final void setOAuthPayload_Session(com.mendix.systemwideinterfaces.core.IContext context, system.proxies.Session oauthpayload_session)
 	{
-		if (oauthpayload_session == null)
+		if (oauthpayload_session == null) {
 			getMendixObject().setValue(context, MemberNames.OAuthPayload_Session.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.OAuthPayload_Session.toString(), oauthpayload_session.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -370,9 +383,9 @@ public class OAuthPayload
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final emailtemplate.proxies.OAuthPayload that = (emailtemplate.proxies.OAuthPayload) obj;
@@ -392,7 +405,7 @@ public class OAuthPayload
 	 */
 	public static java.lang.String getType()
 	{
-		return "EmailTemplate.OAuthPayload";
+		return entityName;
 	}
 
 	/**

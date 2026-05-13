@@ -40,7 +40,7 @@ public class CreateEmailFromTemplate extends CustomJavaAction<IMendixObject>
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.EmailTemplate = __EmailTemplate == null ? null : email_connector.proxies.EmailTemplate.initialize(getContext(), __EmailTemplate);
+		this.EmailTemplate = this.__EmailTemplate == null ? null : email_connector.proxies.EmailTemplate.initialize(getContext(), __EmailTemplate);
 
 		// BEGIN USER CODE
 		if (this.EmailTemplate == null)
@@ -63,6 +63,7 @@ public class CreateEmailFromTemplate extends CustomJavaAction<IMendixObject>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

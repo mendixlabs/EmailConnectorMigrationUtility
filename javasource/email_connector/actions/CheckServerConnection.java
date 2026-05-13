@@ -40,7 +40,7 @@ public class CheckServerConnection extends CustomJavaAction<java.lang.Void>
 	@java.lang.Override
 	public java.lang.Void executeAction() throws Exception
 	{
-		this.EmailAccount = __EmailAccount == null ? null : email_connector.proxies.EmailAccount.initialize(getContext(), __EmailAccount);
+		this.EmailAccount = this.__EmailAccount == null ? null : email_connector.proxies.EmailAccount.initialize(getContext(), __EmailAccount);
 
 		// BEGIN USER CODE
 		if (this.EmailAccount == null) {
@@ -61,6 +61,7 @@ public class CheckServerConnection extends CustomJavaAction<java.lang.Void>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

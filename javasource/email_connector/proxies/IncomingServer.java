@@ -29,7 +29,7 @@ public class IncomingServer
 		SelectedIncomingServer("SelectedIncomingServer"),
 		IncomingServer_EmailProvider("Email_Connector.IncomingServer_EmailProvider");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -45,15 +45,17 @@ public class IncomingServer
 
 	public IncomingServer(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.IncomingServer"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected IncomingServer(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject incomingServerMendixObject)
 	{
-		if (incomingServerMendixObject == null)
+		if (incomingServerMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.IncomingServer", incomingServerMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.IncomingServer");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, incomingServerMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.incomingServerMendixObject = incomingServerMendixObject;
 		this.context = context;
@@ -71,6 +73,9 @@ public class IncomingServer
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.IncomingServer initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -85,6 +90,7 @@ public class IncomingServer
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -93,6 +99,7 @@ public class IncomingServer
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -238,9 +245,9 @@ public class IncomingServer
 	public final email_connector.proxies.ENUM_IncomingProtocol getIncomingProtocol(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.IncomingProtocol.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return email_connector.proxies.ENUM_IncomingProtocol.valueOf((java.lang.String) obj);
 	}
 
@@ -260,10 +267,11 @@ public class IncomingServer
 	 */
 	public final void setIncomingProtocol(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.ENUM_IncomingProtocol incomingprotocol)
 	{
-		if (incomingprotocol != null)
+		if (incomingprotocol != null) {
 			getMendixObject().setValue(context, MemberNames.IncomingProtocol.toString(), incomingprotocol.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.IncomingProtocol.toString(), null);
+		}
 	}
 
 	/**
@@ -375,6 +383,7 @@ public class IncomingServer
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of IncomingServer_EmailProvider
 	 */
 	public final email_connector.proxies.EmailProvider getIncomingServer_EmailProvider() throws com.mendix.core.CoreException
@@ -385,13 +394,15 @@ public class IncomingServer
 	/**
 	 * @param context
 	 * @return value of IncomingServer_EmailProvider
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.EmailProvider getIncomingServer_EmailProvider(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.EmailProvider result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.IncomingServer_EmailProvider.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.EmailProvider.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -411,10 +422,11 @@ public class IncomingServer
 	 */
 	public final void setIncomingServer_EmailProvider(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.EmailProvider incomingserver_emailprovider)
 	{
-		if (incomingserver_emailprovider == null)
+		if (incomingserver_emailprovider == null) {
 			getMendixObject().setValue(context, MemberNames.IncomingServer_EmailProvider.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.IncomingServer_EmailProvider.toString(), incomingserver_emailprovider.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -436,9 +448,9 @@ public class IncomingServer
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.IncomingServer that = (email_connector.proxies.IncomingServer) obj;
@@ -458,7 +470,7 @@ public class IncomingServer
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.IncomingServer";
+		return entityName;
 	}
 
 	/**

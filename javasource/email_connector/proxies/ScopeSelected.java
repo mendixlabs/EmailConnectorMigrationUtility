@@ -23,7 +23,7 @@ public class ScopeSelected
 		ScopeString("ScopeString"),
 		ScopeSelected_OAuthProvider("Email_Connector.ScopeSelected_OAuthProvider");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -39,15 +39,17 @@ public class ScopeSelected
 
 	public ScopeSelected(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.ScopeSelected"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected ScopeSelected(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject scopeSelectedMendixObject)
 	{
-		if (scopeSelectedMendixObject == null)
+		if (scopeSelectedMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.ScopeSelected", scopeSelectedMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.ScopeSelected");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, scopeSelectedMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.scopeSelectedMendixObject = scopeSelectedMendixObject;
 		this.context = context;
@@ -65,6 +67,9 @@ public class ScopeSelected
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.ScopeSelected initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -79,14 +84,16 @@ public class ScopeSelected
 
 	public static java.util.List<email_connector.proxies.ScopeSelected> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<email_connector.proxies.ScopeSelected> result = new java.util.ArrayList<email_connector.proxies.ScopeSelected>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Email_Connector.ScopeSelected" + xpathConstraint))
-			result.add(email_connector.proxies.ScopeSelected.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> email_connector.proxies.ScopeSelected.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -95,6 +102,7 @@ public class ScopeSelected
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -153,6 +161,7 @@ public class ScopeSelected
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of ScopeSelected_OAuthProvider
 	 */
 	public final email_connector.proxies.OAuthProvider getScopeSelected_OAuthProvider() throws com.mendix.core.CoreException
@@ -163,13 +172,15 @@ public class ScopeSelected
 	/**
 	 * @param context
 	 * @return value of ScopeSelected_OAuthProvider
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.OAuthProvider getScopeSelected_OAuthProvider(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.OAuthProvider result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.ScopeSelected_OAuthProvider.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.OAuthProvider.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -189,10 +200,11 @@ public class ScopeSelected
 	 */
 	public final void setScopeSelected_OAuthProvider(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.OAuthProvider scopeselected_oauthprovider)
 	{
-		if (scopeselected_oauthprovider == null)
+		if (scopeselected_oauthprovider == null) {
 			getMendixObject().setValue(context, MemberNames.ScopeSelected_OAuthProvider.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.ScopeSelected_OAuthProvider.toString(), scopeselected_oauthprovider.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -214,9 +226,9 @@ public class ScopeSelected
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.ScopeSelected that = (email_connector.proxies.ScopeSelected) obj;
@@ -236,7 +248,7 @@ public class ScopeSelected
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.ScopeSelected";
+		return entityName;
 	}
 
 	/**

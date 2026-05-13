@@ -28,7 +28,7 @@ public class OAuthToken
 		id_token("id_token"),
 		EmailAccount_OAuthToken("Email_Connector.EmailAccount_OAuthToken");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -44,15 +44,17 @@ public class OAuthToken
 
 	public OAuthToken(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.OAuthToken"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected OAuthToken(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject oAuthTokenMendixObject)
 	{
-		if (oAuthTokenMendixObject == null)
+		if (oAuthTokenMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.OAuthToken", oAuthTokenMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.OAuthToken");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, oAuthTokenMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.oAuthTokenMendixObject = oAuthTokenMendixObject;
 		this.context = context;
@@ -70,6 +72,9 @@ public class OAuthToken
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.OAuthToken initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -84,14 +89,16 @@ public class OAuthToken
 
 	public static java.util.List<email_connector.proxies.OAuthToken> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<email_connector.proxies.OAuthToken> result = new java.util.ArrayList<email_connector.proxies.OAuthToken>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Email_Connector.OAuthToken" + xpathConstraint))
-			result.add(email_connector.proxies.OAuthToken.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> email_connector.proxies.OAuthToken.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -100,6 +107,7 @@ public class OAuthToken
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -338,6 +346,7 @@ public class OAuthToken
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of EmailAccount_OAuthToken
 	 */
 	public final email_connector.proxies.EmailAccount getEmailAccount_OAuthToken() throws com.mendix.core.CoreException
@@ -348,13 +357,15 @@ public class OAuthToken
 	/**
 	 * @param context
 	 * @return value of EmailAccount_OAuthToken
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.EmailAccount getEmailAccount_OAuthToken(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.EmailAccount result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.EmailAccount_OAuthToken.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.EmailAccount.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -374,10 +385,11 @@ public class OAuthToken
 	 */
 	public final void setEmailAccount_OAuthToken(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.EmailAccount emailaccount_oauthtoken)
 	{
-		if (emailaccount_oauthtoken == null)
+		if (emailaccount_oauthtoken == null) {
 			getMendixObject().setValue(context, MemberNames.EmailAccount_OAuthToken.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EmailAccount_OAuthToken.toString(), emailaccount_oauthtoken.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -399,9 +411,9 @@ public class OAuthToken
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.OAuthToken that = (email_connector.proxies.OAuthToken) obj;
@@ -421,7 +433,7 @@ public class OAuthToken
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.OAuthToken";
+		return entityName;
 	}
 
 	/**

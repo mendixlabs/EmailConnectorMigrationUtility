@@ -7,13 +7,19 @@ package emailtemplate.proxies.microflows;
 import java.util.HashMap;
 import java.util.Map;
 import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class Microflows
 {
+	/**
+	 * @deprecated
+	 * The default constructor of the Microflows class should not be used.
+	 * Use the static microflow invocation methods instead.
+	 */
+	@java.lang.Deprecated(since = "9.12", forRemoval = true)
+	public Microflows() {}
+
 	// These are the microflows for the EmailTemplate module
 	public static boolean aSU_RegisterHandlers(IContext context)
 	{
@@ -143,12 +149,13 @@ public class Microflows
 	public static void iVK_ResendFailedEmails(IContext context, java.util.List<emailtemplate.proxies.Email> _emailList)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
-		java.util.ArrayList<IMendixObject> listparam_emailList = null;
+		java.util.List<IMendixObject> listparam_emailList = null;
 		if (_emailList != null)
 		{
 			listparam_emailList = new java.util.ArrayList<>();
-			for (emailtemplate.proxies.Email obj : _emailList)
+			for (var obj : _emailList) {
 				listparam_emailList.add(obj.getMendixObject());
+			}
 		}
 		params.put("EmailList", listparam_emailList);
 
@@ -253,21 +260,23 @@ public class Microflows
 		params.put("CC", _cC);
 		params.put("BCC", _bCC);
 		params.put("EmailSettings", _emailSettings == null ? null : _emailSettings.getMendixObject());
-		java.util.ArrayList<IMendixObject> listparam_attachmentList = null;
+		java.util.List<IMendixObject> listparam_attachmentList = null;
 		if (_attachmentList != null)
 		{
 			listparam_attachmentList = new java.util.ArrayList<>();
-			for (emailtemplate.proxies.Attachment obj : _attachmentList)
+			for (var obj : _attachmentList) {
 				listparam_attachmentList.add(obj.getMendixObject());
+			}
 		}
 		params.put("AttachmentList", listparam_attachmentList);
 
-		java.util.ArrayList<IMendixObject> listparam_headerList = null;
+		java.util.List<IMendixObject> listparam_headerList = null;
 		if (_headerList != null)
 		{
 			listparam_headerList = new java.util.ArrayList<>();
-			for (emailtemplate.proxies.Header obj : _headerList)
+			for (var obj : _headerList) {
 				listparam_headerList.add(obj.getMendixObject());
+			}
 		}
 		params.put("HeaderList", listparam_headerList);
 
@@ -278,25 +287,25 @@ public class Microflows
 	public static java.util.List<emailtemplate.proxies.Attachment> sub_CreateAttachments(IContext context, java.util.List<system.proxies.FileDocument> _fileDocumentList, emailtemplate.proxies.Email _email)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
-		java.util.ArrayList<IMendixObject> listparam_fileDocumentList = null;
+		java.util.List<IMendixObject> listparam_fileDocumentList = null;
 		if (_fileDocumentList != null)
 		{
 			listparam_fileDocumentList = new java.util.ArrayList<>();
-			for (system.proxies.FileDocument obj : _fileDocumentList)
+			for (var obj : _fileDocumentList) {
 				listparam_fileDocumentList.add(obj.getMendixObject());
+			}
 		}
 		params.put("FileDocumentList", listparam_fileDocumentList);
 
 		params.put("Email", _email == null ? null : _email.getMendixObject());
 		java.util.List<IMendixObject> objs = Core.microflowCall("EmailTemplate.Sub_CreateAttachments").withParams(params).execute(context);
-		java.util.List<emailtemplate.proxies.Attachment> result = null;
-		if (objs != null)
-		{
-			result = new java.util.ArrayList<>();
-			for (IMendixObject obj : objs)
-				result.add(emailtemplate.proxies.Attachment.initialize(context, obj));
+		if (objs == null) {
+			return null;
+		} else {
+			return objs.stream()
+				.map(obj -> emailtemplate.proxies.Attachment.initialize(context, obj))
+				.collect(java.util.stream.Collectors.toList());
 		}
-		return result;
 	}
 	public static void sub_CreateLogItem(IContext context, java.lang.String _triggeredInMF, emailtemplate.proxies.LogType _logType, java.lang.String _message, java.lang.String _errorMessage, java.lang.String _stackTrace)
 	{
@@ -311,24 +320,24 @@ public class Microflows
 	public static java.util.List<mxmodelreflection.proxies.Token> sub_DuplicateTokenList(IContext context, java.util.List<mxmodelreflection.proxies.Token> _tokenList)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
-		java.util.ArrayList<IMendixObject> listparam_tokenList = null;
+		java.util.List<IMendixObject> listparam_tokenList = null;
 		if (_tokenList != null)
 		{
 			listparam_tokenList = new java.util.ArrayList<>();
-			for (mxmodelreflection.proxies.Token obj : _tokenList)
+			for (var obj : _tokenList) {
 				listparam_tokenList.add(obj.getMendixObject());
+			}
 		}
 		params.put("TokenList", listparam_tokenList);
 
 		java.util.List<IMendixObject> objs = Core.microflowCall("EmailTemplate.Sub_DuplicateTokenList").withParams(params).execute(context);
-		java.util.List<mxmodelreflection.proxies.Token> result = null;
-		if (objs != null)
-		{
-			result = new java.util.ArrayList<>();
-			for (IMendixObject obj : objs)
-				result.add(mxmodelreflection.proxies.Token.initialize(context, obj));
+		if (objs == null) {
+			return null;
+		} else {
+			return objs.stream()
+				.map(obj -> mxmodelreflection.proxies.Token.initialize(context, obj))
+				.collect(java.util.stream.Collectors.toList());
 		}
-		return result;
 	}
 	public static void sub_SendQueuedEmail(IContext context, emailtemplate.proxies.Email _email, emailtemplate.proxies.EmailSettings _emailSettings, java.lang.String _decryptedPassword)
 	{

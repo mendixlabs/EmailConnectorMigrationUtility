@@ -39,7 +39,7 @@ public class SubscribeToIncomingEmail extends CustomJavaAction<java.lang.Void>
 	@java.lang.Override
 	public java.lang.Void executeAction() throws Exception
 	{
-		this.account = __account == null ? null : email_connector.proxies.EmailAccount.initialize(getContext(), __account);
+		this.account = this.__account == null ? null : email_connector.proxies.EmailAccount.initialize(getContext(), __account);
 
 		// BEGIN USER CODE
 		if (this.account == null)
@@ -57,6 +57,7 @@ public class SubscribeToIncomingEmail extends CustomJavaAction<java.lang.Void>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

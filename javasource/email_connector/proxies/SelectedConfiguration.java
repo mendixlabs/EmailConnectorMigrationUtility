@@ -31,7 +31,7 @@ public class SelectedConfiguration
 		OutgoingTLS("OutgoingTLS"),
 		SelectedConfiguration_EmailProvider("Email_Connector.SelectedConfiguration_EmailProvider");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -47,15 +47,17 @@ public class SelectedConfiguration
 
 	public SelectedConfiguration(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.SelectedConfiguration"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected SelectedConfiguration(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject selectedConfigurationMendixObject)
 	{
-		if (selectedConfigurationMendixObject == null)
+		if (selectedConfigurationMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.SelectedConfiguration", selectedConfigurationMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.SelectedConfiguration");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, selectedConfigurationMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.selectedConfigurationMendixObject = selectedConfigurationMendixObject;
 		this.context = context;
@@ -73,6 +75,9 @@ public class SelectedConfiguration
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.SelectedConfiguration initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -87,6 +92,7 @@ public class SelectedConfiguration
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -95,6 +101,7 @@ public class SelectedConfiguration
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -240,9 +247,9 @@ public class SelectedConfiguration
 	public final email_connector.proxies.ENUM_IncomingProtocol getIncomingProtocol(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.IncomingProtocol.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return email_connector.proxies.ENUM_IncomingProtocol.valueOf((java.lang.String) obj);
 	}
 
@@ -262,10 +269,11 @@ public class SelectedConfiguration
 	 */
 	public final void setIncomingProtocol(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.ENUM_IncomingProtocol incomingprotocol)
 	{
-		if (incomingprotocol != null)
+		if (incomingprotocol != null) {
 			getMendixObject().setValue(context, MemberNames.IncomingProtocol.toString(), incomingprotocol.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.IncomingProtocol.toString(), null);
+		}
 	}
 
 	/**
@@ -356,9 +364,9 @@ public class SelectedConfiguration
 	public final email_connector.proxies.ENUM_OutgoingProtocol getOutgoingProtocol(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.OutgoingProtocol.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return email_connector.proxies.ENUM_OutgoingProtocol.valueOf((java.lang.String) obj);
 	}
 
@@ -378,10 +386,11 @@ public class SelectedConfiguration
 	 */
 	public final void setOutgoingProtocol(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.ENUM_OutgoingProtocol outgoingprotocol)
 	{
-		if (outgoingprotocol != null)
+		if (outgoingprotocol != null) {
 			getMendixObject().setValue(context, MemberNames.OutgoingProtocol.toString(), outgoingprotocol.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.OutgoingProtocol.toString(), null);
+		}
 	}
 
 	/**
@@ -457,6 +466,7 @@ public class SelectedConfiguration
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of SelectedConfiguration_EmailProvider
 	 */
 	public final email_connector.proxies.EmailProvider getSelectedConfiguration_EmailProvider() throws com.mendix.core.CoreException
@@ -467,13 +477,15 @@ public class SelectedConfiguration
 	/**
 	 * @param context
 	 * @return value of SelectedConfiguration_EmailProvider
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.EmailProvider getSelectedConfiguration_EmailProvider(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.EmailProvider result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.SelectedConfiguration_EmailProvider.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.EmailProvider.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -493,10 +505,11 @@ public class SelectedConfiguration
 	 */
 	public final void setSelectedConfiguration_EmailProvider(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.EmailProvider selectedconfiguration_emailprovider)
 	{
-		if (selectedconfiguration_emailprovider == null)
+		if (selectedconfiguration_emailprovider == null) {
 			getMendixObject().setValue(context, MemberNames.SelectedConfiguration_EmailProvider.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.SelectedConfiguration_EmailProvider.toString(), selectedconfiguration_emailprovider.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -518,9 +531,9 @@ public class SelectedConfiguration
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.SelectedConfiguration that = (email_connector.proxies.SelectedConfiguration) obj;
@@ -540,7 +553,7 @@ public class SelectedConfiguration
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.SelectedConfiguration";
+		return entityName;
 	}
 
 	/**

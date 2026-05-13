@@ -42,7 +42,7 @@ public class RetrieveEmailMessages extends CustomJavaAction<java.lang.Void>
 	@java.lang.Override
 	public java.lang.Void executeAction() throws Exception
 	{
-		this.emailAccount = __emailAccount == null ? null : email_connector.proxies.EmailAccount.initialize(getContext(), __emailAccount);
+		this.emailAccount = this.__emailAccount == null ? null : email_connector.proxies.EmailAccount.initialize(getContext(), __emailAccount);
 
 		// BEGIN USER CODE
 		if (this.emailAccount == null)
@@ -63,6 +63,7 @@ public class RetrieveEmailMessages extends CustomJavaAction<java.lang.Void>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

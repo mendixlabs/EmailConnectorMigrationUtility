@@ -43,9 +43,9 @@ public class SendEmail extends CustomJavaAction<java.lang.Boolean>
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.EmailAccount = __EmailAccount == null ? null : email_connector.proxies.EmailAccount.initialize(getContext(), __EmailAccount);
+		this.EmailAccount = this.__EmailAccount == null ? null : email_connector.proxies.EmailAccount.initialize(getContext(), __EmailAccount);
 
-		this.EmailMessage = __EmailMessage == null ? null : email_connector.proxies.EmailMessage.initialize(getContext(), __EmailMessage);
+		this.EmailMessage = this.__EmailMessage == null ? null : email_connector.proxies.EmailMessage.initialize(getContext(), __EmailMessage);
 
 		// BEGIN USER CODE
 		if (this.EmailAccount == null)
@@ -85,6 +85,7 @@ public class SendEmail extends CustomJavaAction<java.lang.Boolean>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

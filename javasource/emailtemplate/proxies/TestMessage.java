@@ -30,7 +30,7 @@ public class TestMessage
 		TestMessage_EmailSettings("EmailTemplate.TestMessage_EmailSettings"),
 		TestMessage_ModuleSetup("EmailTemplate.TestMessage_ModuleSetup");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -46,15 +46,17 @@ public class TestMessage
 
 	public TestMessage(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "EmailTemplate.TestMessage"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected TestMessage(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject testMessageMendixObject)
 	{
-		if (testMessageMendixObject == null)
+		if (testMessageMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("EmailTemplate.TestMessage", testMessageMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a EmailTemplate.TestMessage");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, testMessageMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.testMessageMendixObject = testMessageMendixObject;
 		this.context = context;
@@ -72,6 +74,9 @@ public class TestMessage
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static emailtemplate.proxies.TestMessage initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -86,6 +91,7 @@ public class TestMessage
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -94,6 +100,7 @@ public class TestMessage
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -203,9 +210,9 @@ public class TestMessage
 	public final emailtemplate.proxies.Status getStatus(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.Status.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return emailtemplate.proxies.Status.valueOf((java.lang.String) obj);
 	}
 
@@ -225,10 +232,11 @@ public class TestMessage
 	 */
 	public final void setStatus(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.Status status)
 	{
-		if (status != null)
+		if (status != null) {
 			getMendixObject().setValue(context, MemberNames.Status.toString(), status.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Status.toString(), null);
+		}
 	}
 
 	/**
@@ -376,6 +384,7 @@ public class TestMessage
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of TestMessage_EmailSettings
 	 */
 	public final emailtemplate.proxies.EmailSettings getTestMessage_EmailSettings() throws com.mendix.core.CoreException
@@ -386,13 +395,15 @@ public class TestMessage
 	/**
 	 * @param context
 	 * @return value of TestMessage_EmailSettings
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final emailtemplate.proxies.EmailSettings getTestMessage_EmailSettings(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		emailtemplate.proxies.EmailSettings result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.TestMessage_EmailSettings.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = emailtemplate.proxies.EmailSettings.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -412,13 +423,15 @@ public class TestMessage
 	 */
 	public final void setTestMessage_EmailSettings(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.EmailSettings testmessage_emailsettings)
 	{
-		if (testmessage_emailsettings == null)
+		if (testmessage_emailsettings == null) {
 			getMendixObject().setValue(context, MemberNames.TestMessage_EmailSettings.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.TestMessage_EmailSettings.toString(), testmessage_emailsettings.getMendixObject().getId());
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of TestMessage_ModuleSetup
 	 */
 	public final emailtemplate.proxies.ModuleSetup getTestMessage_ModuleSetup() throws com.mendix.core.CoreException
@@ -429,13 +442,15 @@ public class TestMessage
 	/**
 	 * @param context
 	 * @return value of TestMessage_ModuleSetup
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final emailtemplate.proxies.ModuleSetup getTestMessage_ModuleSetup(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		emailtemplate.proxies.ModuleSetup result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.TestMessage_ModuleSetup.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = emailtemplate.proxies.ModuleSetup.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -455,10 +470,11 @@ public class TestMessage
 	 */
 	public final void setTestMessage_ModuleSetup(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.ModuleSetup testmessage_modulesetup)
 	{
-		if (testmessage_modulesetup == null)
+		if (testmessage_modulesetup == null) {
 			getMendixObject().setValue(context, MemberNames.TestMessage_ModuleSetup.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.TestMessage_ModuleSetup.toString(), testmessage_modulesetup.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -480,9 +496,9 @@ public class TestMessage
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final emailtemplate.proxies.TestMessage that = (emailtemplate.proxies.TestMessage) obj;
@@ -502,7 +518,7 @@ public class TestMessage
 	 */
 	public static java.lang.String getType()
 	{
-		return "EmailTemplate.TestMessage";
+		return entityName;
 	}
 
 	/**

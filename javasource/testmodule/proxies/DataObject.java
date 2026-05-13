@@ -25,7 +25,7 @@ public class DataObject
 		sal("sal"),
 		DataObject_Asso_DataObject("TestModule.DataObject_Asso_DataObject");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -41,15 +41,17 @@ public class DataObject
 
 	public DataObject(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "TestModule.DataObject"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected DataObject(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject dataObjectMendixObject)
 	{
-		if (dataObjectMendixObject == null)
+		if (dataObjectMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("TestModule.DataObject", dataObjectMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a TestModule.DataObject");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, dataObjectMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.dataObjectMendixObject = dataObjectMendixObject;
 		this.context = context;
@@ -67,6 +69,9 @@ public class DataObject
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static testmodule.proxies.DataObject initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -81,14 +86,16 @@ public class DataObject
 
 	public static java.util.List<testmodule.proxies.DataObject> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<testmodule.proxies.DataObject> result = new java.util.ArrayList<testmodule.proxies.DataObject>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//TestModule.DataObject" + xpathConstraint))
-			result.add(testmodule.proxies.DataObject.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> testmodule.proxies.DataObject.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -97,6 +104,7 @@ public class DataObject
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -227,6 +235,7 @@ public class DataObject
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of DataObject_Asso_DataObject
 	 */
 	public final testmodule.proxies.Asso_DataObject getDataObject_Asso_DataObject() throws com.mendix.core.CoreException
@@ -237,13 +246,15 @@ public class DataObject
 	/**
 	 * @param context
 	 * @return value of DataObject_Asso_DataObject
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final testmodule.proxies.Asso_DataObject getDataObject_Asso_DataObject(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		testmodule.proxies.Asso_DataObject result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.DataObject_Asso_DataObject.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = testmodule.proxies.Asso_DataObject.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -263,10 +274,11 @@ public class DataObject
 	 */
 	public final void setDataObject_Asso_DataObject(com.mendix.systemwideinterfaces.core.IContext context, testmodule.proxies.Asso_DataObject dataobject_asso_dataobject)
 	{
-		if (dataobject_asso_dataobject == null)
+		if (dataobject_asso_dataobject == null) {
 			getMendixObject().setValue(context, MemberNames.DataObject_Asso_DataObject.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.DataObject_Asso_DataObject.toString(), dataobject_asso_dataobject.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -288,9 +300,9 @@ public class DataObject
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final testmodule.proxies.DataObject that = (testmodule.proxies.DataObject) obj;
@@ -310,7 +322,7 @@ public class DataObject
 	 */
 	public static java.lang.String getType()
 	{
-		return "TestModule.DataObject";
+		return entityName;
 	}
 
 	/**

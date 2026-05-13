@@ -23,7 +23,7 @@ public class ModelReflectionChecker
 		ModelReflectionSynced("ModelReflectionSynced"),
 		ModelReflectionChecker_EmailTemplate("EmailTemplate.ModelReflectionChecker_EmailTemplate");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -39,15 +39,17 @@ public class ModelReflectionChecker
 
 	public ModelReflectionChecker(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "EmailTemplate.ModelReflectionChecker"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected ModelReflectionChecker(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject modelReflectionCheckerMendixObject)
 	{
-		if (modelReflectionCheckerMendixObject == null)
+		if (modelReflectionCheckerMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("EmailTemplate.ModelReflectionChecker", modelReflectionCheckerMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a EmailTemplate.ModelReflectionChecker");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, modelReflectionCheckerMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.modelReflectionCheckerMendixObject = modelReflectionCheckerMendixObject;
 		this.context = context;
@@ -65,6 +67,9 @@ public class ModelReflectionChecker
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static emailtemplate.proxies.ModelReflectionChecker initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -79,6 +84,7 @@ public class ModelReflectionChecker
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -87,6 +93,7 @@ public class ModelReflectionChecker
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -145,6 +152,7 @@ public class ModelReflectionChecker
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of ModelReflectionChecker_EmailTemplate
 	 */
 	public final emailtemplate.proxies.EmailTemplate getModelReflectionChecker_EmailTemplate() throws com.mendix.core.CoreException
@@ -155,13 +163,15 @@ public class ModelReflectionChecker
 	/**
 	 * @param context
 	 * @return value of ModelReflectionChecker_EmailTemplate
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final emailtemplate.proxies.EmailTemplate getModelReflectionChecker_EmailTemplate(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		emailtemplate.proxies.EmailTemplate result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.ModelReflectionChecker_EmailTemplate.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = emailtemplate.proxies.EmailTemplate.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -181,10 +191,11 @@ public class ModelReflectionChecker
 	 */
 	public final void setModelReflectionChecker_EmailTemplate(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.EmailTemplate modelreflectionchecker_emailtemplate)
 	{
-		if (modelreflectionchecker_emailtemplate == null)
+		if (modelreflectionchecker_emailtemplate == null) {
 			getMendixObject().setValue(context, MemberNames.ModelReflectionChecker_EmailTemplate.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.ModelReflectionChecker_EmailTemplate.toString(), modelreflectionchecker_emailtemplate.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -206,9 +217,9 @@ public class ModelReflectionChecker
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final emailtemplate.proxies.ModelReflectionChecker that = (emailtemplate.proxies.ModelReflectionChecker) obj;
@@ -228,7 +239,7 @@ public class ModelReflectionChecker
 	 */
 	public static java.lang.String getType()
 	{
-		return "EmailTemplate.ModelReflectionChecker";
+		return entityName;
 	}
 
 	/**

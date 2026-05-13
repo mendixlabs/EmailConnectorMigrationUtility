@@ -27,7 +27,7 @@ public class EmailLog
 		TriggeredInMF("TriggeredInMF"),
 		StackTrace("StackTrace");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -43,15 +43,17 @@ public class EmailLog
 
 	public EmailLog(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "EmailTemplate.EmailLog"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected EmailLog(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject emailLogMendixObject)
 	{
-		if (emailLogMendixObject == null)
+		if (emailLogMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("EmailTemplate.EmailLog", emailLogMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a EmailTemplate.EmailLog");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, emailLogMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.emailLogMendixObject = emailLogMendixObject;
 		this.context = context;
@@ -69,6 +71,9 @@ public class EmailLog
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static emailtemplate.proxies.EmailLog initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -83,14 +88,16 @@ public class EmailLog
 
 	public static java.util.List<emailtemplate.proxies.EmailLog> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<emailtemplate.proxies.EmailLog> result = new java.util.ArrayList<emailtemplate.proxies.EmailLog>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//EmailTemplate.EmailLog" + xpathConstraint))
-			result.add(emailtemplate.proxies.EmailLog.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> emailtemplate.proxies.EmailLog.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -99,6 +106,7 @@ public class EmailLog
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -172,9 +180,9 @@ public class EmailLog
 	public final emailtemplate.proxies.LogType getLogtype(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.Logtype.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return emailtemplate.proxies.LogType.valueOf((java.lang.String) obj);
 	}
 
@@ -194,10 +202,11 @@ public class EmailLog
 	 */
 	public final void setLogtype(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.LogType logtype)
 	{
-		if (logtype != null)
+		if (logtype != null) {
 			getMendixObject().setValue(context, MemberNames.Logtype.toString(), logtype.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Logtype.toString(), null);
+		}
 	}
 
 	/**
@@ -363,9 +372,9 @@ public class EmailLog
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final emailtemplate.proxies.EmailLog that = (emailtemplate.proxies.EmailLog) obj;
@@ -385,7 +394,7 @@ public class EmailLog
 	 */
 	public static java.lang.String getType()
 	{
-		return "EmailTemplate.EmailLog";
+		return entityName;
 	}
 
 	/**

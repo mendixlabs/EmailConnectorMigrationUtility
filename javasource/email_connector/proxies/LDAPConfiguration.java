@@ -29,7 +29,7 @@ public class LDAPConfiguration
 		AuthType("AuthType"),
 		EmailAccount_LDAPConfiguration("Email_Connector.EmailAccount_LDAPConfiguration");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -45,15 +45,17 @@ public class LDAPConfiguration
 
 	public LDAPConfiguration(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.LDAPConfiguration"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected LDAPConfiguration(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject lDAPConfigurationMendixObject)
 	{
-		if (lDAPConfigurationMendixObject == null)
+		if (lDAPConfigurationMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.LDAPConfiguration", lDAPConfigurationMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.LDAPConfiguration");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, lDAPConfigurationMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.lDAPConfigurationMendixObject = lDAPConfigurationMendixObject;
 		this.context = context;
@@ -71,6 +73,9 @@ public class LDAPConfiguration
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.LDAPConfiguration initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -85,14 +90,16 @@ public class LDAPConfiguration
 
 	public static java.util.List<email_connector.proxies.LDAPConfiguration> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<email_connector.proxies.LDAPConfiguration> result = new java.util.ArrayList<email_connector.proxies.LDAPConfiguration>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Email_Connector.LDAPConfiguration" + xpathConstraint))
-			result.add(email_connector.proxies.LDAPConfiguration.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> email_connector.proxies.LDAPConfiguration.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -101,6 +108,7 @@ public class LDAPConfiguration
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -354,9 +362,9 @@ public class LDAPConfiguration
 	public final email_connector.proxies.ENUM_LDAPAuthType getAuthType(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.AuthType.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return email_connector.proxies.ENUM_LDAPAuthType.valueOf((java.lang.String) obj);
 	}
 
@@ -376,13 +384,15 @@ public class LDAPConfiguration
 	 */
 	public final void setAuthType(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.ENUM_LDAPAuthType authtype)
 	{
-		if (authtype != null)
+		if (authtype != null) {
 			getMendixObject().setValue(context, MemberNames.AuthType.toString(), authtype.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.AuthType.toString(), null);
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of EmailAccount_LDAPConfiguration
 	 */
 	public final email_connector.proxies.EmailAccount getEmailAccount_LDAPConfiguration() throws com.mendix.core.CoreException
@@ -393,13 +403,15 @@ public class LDAPConfiguration
 	/**
 	 * @param context
 	 * @return value of EmailAccount_LDAPConfiguration
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.EmailAccount getEmailAccount_LDAPConfiguration(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.EmailAccount result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.EmailAccount_LDAPConfiguration.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.EmailAccount.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -419,10 +431,11 @@ public class LDAPConfiguration
 	 */
 	public final void setEmailAccount_LDAPConfiguration(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.EmailAccount emailaccount_ldapconfiguration)
 	{
-		if (emailaccount_ldapconfiguration == null)
+		if (emailaccount_ldapconfiguration == null) {
 			getMendixObject().setValue(context, MemberNames.EmailAccount_LDAPConfiguration.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EmailAccount_LDAPConfiguration.toString(), emailaccount_ldapconfiguration.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -444,9 +457,9 @@ public class LDAPConfiguration
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.LDAPConfiguration that = (email_connector.proxies.LDAPConfiguration) obj;
@@ -466,7 +479,7 @@ public class LDAPConfiguration
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.LDAPConfiguration";
+		return entityName;
 	}
 
 	/**

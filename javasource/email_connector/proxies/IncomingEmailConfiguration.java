@@ -33,7 +33,7 @@ public class IncomingEmailConfiguration
 		ServerPort("ServerPort"),
 		IncomingEmailConfiguration_EmailAccount("Email_Connector.IncomingEmailConfiguration_EmailAccount");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -49,15 +49,17 @@ public class IncomingEmailConfiguration
 
 	public IncomingEmailConfiguration(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.IncomingEmailConfiguration"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected IncomingEmailConfiguration(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject incomingEmailConfigurationMendixObject)
 	{
-		if (incomingEmailConfigurationMendixObject == null)
+		if (incomingEmailConfigurationMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.IncomingEmailConfiguration", incomingEmailConfigurationMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.IncomingEmailConfiguration");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, incomingEmailConfigurationMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.incomingEmailConfigurationMendixObject = incomingEmailConfigurationMendixObject;
 		this.context = context;
@@ -75,6 +77,9 @@ public class IncomingEmailConfiguration
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.IncomingEmailConfiguration initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -89,14 +94,16 @@ public class IncomingEmailConfiguration
 
 	public static java.util.List<email_connector.proxies.IncomingEmailConfiguration> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<email_connector.proxies.IncomingEmailConfiguration> result = new java.util.ArrayList<email_connector.proxies.IncomingEmailConfiguration>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Email_Connector.IncomingEmailConfiguration" + xpathConstraint))
-			result.add(email_connector.proxies.IncomingEmailConfiguration.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> email_connector.proxies.IncomingEmailConfiguration.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -105,6 +112,7 @@ public class IncomingEmailConfiguration
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -142,9 +150,9 @@ public class IncomingEmailConfiguration
 	public final email_connector.proxies.ENUM_IncomingProtocol getIncomingProtocol(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.IncomingProtocol.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return email_connector.proxies.ENUM_IncomingProtocol.valueOf((java.lang.String) obj);
 	}
 
@@ -164,10 +172,11 @@ public class IncomingEmailConfiguration
 	 */
 	public final void setIncomingProtocol(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.ENUM_IncomingProtocol incomingprotocol)
 	{
-		if (incomingprotocol != null)
+		if (incomingprotocol != null) {
 			getMendixObject().setValue(context, MemberNames.IncomingProtocol.toString(), incomingprotocol.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.IncomingProtocol.toString(), null);
+		}
 	}
 
 	/**
@@ -294,9 +303,9 @@ public class IncomingEmailConfiguration
 	public final email_connector.proxies.ENUM_MessageHandling getHandling(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.Handling.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return email_connector.proxies.ENUM_MessageHandling.valueOf((java.lang.String) obj);
 	}
 
@@ -316,10 +325,11 @@ public class IncomingEmailConfiguration
 	 */
 	public final void setHandling(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.ENUM_MessageHandling handling)
 	{
-		if (handling != null)
+		if (handling != null) {
 			getMendixObject().setValue(context, MemberNames.Handling.toString(), handling.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Handling.toString(), null);
+		}
 	}
 
 	/**
@@ -410,9 +420,9 @@ public class IncomingEmailConfiguration
 	public final email_connector.proxies.ENUM_FetchStrategy getFetchStrategy(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.FetchStrategy.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return email_connector.proxies.ENUM_FetchStrategy.valueOf((java.lang.String) obj);
 	}
 
@@ -432,10 +442,11 @@ public class IncomingEmailConfiguration
 	 */
 	public final void setFetchStrategy(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.ENUM_FetchStrategy fetchstrategy)
 	{
-		if (fetchstrategy != null)
+		if (fetchstrategy != null) {
 			getMendixObject().setValue(context, MemberNames.FetchStrategy.toString(), fetchstrategy.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.FetchStrategy.toString(), null);
+		}
 	}
 
 	/**
@@ -547,6 +558,7 @@ public class IncomingEmailConfiguration
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of IncomingEmailConfiguration_EmailAccount
 	 */
 	public final email_connector.proxies.EmailAccount getIncomingEmailConfiguration_EmailAccount() throws com.mendix.core.CoreException
@@ -557,13 +569,15 @@ public class IncomingEmailConfiguration
 	/**
 	 * @param context
 	 * @return value of IncomingEmailConfiguration_EmailAccount
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.EmailAccount getIncomingEmailConfiguration_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.EmailAccount result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.IncomingEmailConfiguration_EmailAccount.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.EmailAccount.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -583,10 +597,11 @@ public class IncomingEmailConfiguration
 	 */
 	public final void setIncomingEmailConfiguration_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.EmailAccount incomingemailconfiguration_emailaccount)
 	{
-		if (incomingemailconfiguration_emailaccount == null)
+		if (incomingemailconfiguration_emailaccount == null) {
 			getMendixObject().setValue(context, MemberNames.IncomingEmailConfiguration_EmailAccount.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.IncomingEmailConfiguration_EmailAccount.toString(), incomingemailconfiguration_emailaccount.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -608,9 +623,9 @@ public class IncomingEmailConfiguration
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.IncomingEmailConfiguration that = (email_connector.proxies.IncomingEmailConfiguration) obj;
@@ -630,7 +645,7 @@ public class IncomingEmailConfiguration
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.IncomingEmailConfiguration";
+		return entityName;
 	}
 
 	/**

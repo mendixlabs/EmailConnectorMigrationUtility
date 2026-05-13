@@ -21,9 +21,10 @@ public class Profile
 	public enum MemberNames
 	{
 		Email("Email"),
-		Name("Name");
+		Name("Name"),
+		Username("Username");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -39,15 +40,17 @@ public class Profile
 
 	public Profile(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.Profile"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected Profile(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject profileMendixObject)
 	{
-		if (profileMendixObject == null)
+		if (profileMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.Profile", profileMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.Profile");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, profileMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.profileMendixObject = profileMendixObject;
 		this.context = context;
@@ -65,6 +68,9 @@ public class Profile
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.Profile initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -79,6 +85,7 @@ public class Profile
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -87,6 +94,7 @@ public class Profile
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -181,6 +189,42 @@ public class Profile
 	}
 
 	/**
+	 * @return value of Username
+	 */
+	public final java.lang.String getUsername()
+	{
+		return getUsername(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Username
+	 */
+	public final java.lang.String getUsername(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.Username.toString());
+	}
+
+	/**
+	 * Set value of Username
+	 * @param username
+	 */
+	public final void setUsername(java.lang.String username)
+	{
+		setUsername(getContext(), username);
+	}
+
+	/**
+	 * Set value of Username
+	 * @param context
+	 * @param username
+	 */
+	public final void setUsername(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String username)
+	{
+		getMendixObject().setValue(context, MemberNames.Username.toString(), username);
+	}
+
+	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
 	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
@@ -199,9 +243,9 @@ public class Profile
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.Profile that = (email_connector.proxies.Profile) obj;
@@ -221,7 +265,7 @@ public class Profile
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.Profile";
+		return entityName;
 	}
 
 	/**

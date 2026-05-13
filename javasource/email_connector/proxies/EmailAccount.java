@@ -21,6 +21,7 @@ public class EmailAccount
 	public enum MemberNames
 	{
 		Username("Username"),
+		MailAddress("MailAddress"),
 		Password("Password"),
 		Timeout("Timeout"),
 		sanitizeEmailBodyForXSSScript("sanitizeEmailBodyForXSSScript"),
@@ -30,9 +31,10 @@ public class EmailAccount
 		isOutgoingEmailConfigured("isOutgoingEmailConfigured"),
 		FromDisplayName("FromDisplayName"),
 		UseSSLCheckServerIdentity("UseSSLCheckServerIdentity"),
+		IsSharedMailbox("IsSharedMailbox"),
 		isOAuthUsed("isOAuthUsed"),
-		OAuthSetupComplete("OAuthSetupComplete"),
 		isEmailConfigAutoDetect("isEmailConfigAutoDetect"),
+		ComposeEmail("ComposeEmail"),
 		OutgoingEmailConfiguration_EmailAccount("Email_Connector.OutgoingEmailConfiguration_EmailAccount"),
 		IncomingEmailConfiguration_EmailAccount("Email_Connector.IncomingEmailConfiguration_EmailAccount"),
 		Pk12Certificate_EmailAccount("Email_Connector.Pk12Certificate_EmailAccount"),
@@ -40,7 +42,7 @@ public class EmailAccount
 		EmailAccount_OAuthProvider("Email_Connector.EmailAccount_OAuthProvider"),
 		EmailAccount_OAuthToken("Email_Connector.EmailAccount_OAuthToken");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -56,15 +58,17 @@ public class EmailAccount
 
 	public EmailAccount(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "Email_Connector.EmailAccount"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected EmailAccount(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject emailAccountMendixObject)
 	{
-		if (emailAccountMendixObject == null)
+		if (emailAccountMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("Email_Connector.EmailAccount", emailAccountMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a Email_Connector.EmailAccount");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, emailAccountMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.emailAccountMendixObject = emailAccountMendixObject;
 		this.context = context;
@@ -82,6 +86,9 @@ public class EmailAccount
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static email_connector.proxies.EmailAccount initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -96,14 +103,16 @@ public class EmailAccount
 
 	public static java.util.List<email_connector.proxies.EmailAccount> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<email_connector.proxies.EmailAccount> result = new java.util.ArrayList<email_connector.proxies.EmailAccount>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Email_Connector.EmailAccount" + xpathConstraint))
-			result.add(email_connector.proxies.EmailAccount.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> email_connector.proxies.EmailAccount.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -112,6 +121,7 @@ public class EmailAccount
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -167,6 +177,42 @@ public class EmailAccount
 	public final void setUsername(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String username)
 	{
 		getMendixObject().setValue(context, MemberNames.Username.toString(), username);
+	}
+
+	/**
+	 * @return value of MailAddress
+	 */
+	public final java.lang.String getMailAddress()
+	{
+		return getMailAddress(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of MailAddress
+	 */
+	public final java.lang.String getMailAddress(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.MailAddress.toString());
+	}
+
+	/**
+	 * Set value of MailAddress
+	 * @param mailaddress
+	 */
+	public final void setMailAddress(java.lang.String mailaddress)
+	{
+		setMailAddress(getContext(), mailaddress);
+	}
+
+	/**
+	 * Set value of MailAddress
+	 * @param context
+	 * @param mailaddress
+	 */
+	public final void setMailAddress(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String mailaddress)
+	{
+		getMendixObject().setValue(context, MemberNames.MailAddress.toString(), mailaddress);
 	}
 
 	/**
@@ -494,6 +540,42 @@ public class EmailAccount
 	}
 
 	/**
+	 * @return value of IsSharedMailbox
+	 */
+	public final java.lang.Boolean getIsSharedMailbox()
+	{
+		return getIsSharedMailbox(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of IsSharedMailbox
+	 */
+	public final java.lang.Boolean getIsSharedMailbox(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.IsSharedMailbox.toString());
+	}
+
+	/**
+	 * Set value of IsSharedMailbox
+	 * @param issharedmailbox
+	 */
+	public final void setIsSharedMailbox(java.lang.Boolean issharedmailbox)
+	{
+		setIsSharedMailbox(getContext(), issharedmailbox);
+	}
+
+	/**
+	 * Set value of IsSharedMailbox
+	 * @param context
+	 * @param issharedmailbox
+	 */
+	public final void setIsSharedMailbox(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean issharedmailbox)
+	{
+		getMendixObject().setValue(context, MemberNames.IsSharedMailbox.toString(), issharedmailbox);
+	}
+
+	/**
 	 * @return value of isOAuthUsed
 	 */
 	public final java.lang.Boolean getisOAuthUsed()
@@ -527,42 +609,6 @@ public class EmailAccount
 	public final void setisOAuthUsed(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean isoauthused)
 	{
 		getMendixObject().setValue(context, MemberNames.isOAuthUsed.toString(), isoauthused);
-	}
-
-	/**
-	 * @return value of OAuthSetupComplete
-	 */
-	public final java.lang.Boolean getOAuthSetupComplete()
-	{
-		return getOAuthSetupComplete(getContext());
-	}
-
-	/**
-	 * @param context
-	 * @return value of OAuthSetupComplete
-	 */
-	public final java.lang.Boolean getOAuthSetupComplete(com.mendix.systemwideinterfaces.core.IContext context)
-	{
-		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.OAuthSetupComplete.toString());
-	}
-
-	/**
-	 * Set value of OAuthSetupComplete
-	 * @param oauthsetupcomplete
-	 */
-	public final void setOAuthSetupComplete(java.lang.Boolean oauthsetupcomplete)
-	{
-		setOAuthSetupComplete(getContext(), oauthsetupcomplete);
-	}
-
-	/**
-	 * Set value of OAuthSetupComplete
-	 * @param context
-	 * @param oauthsetupcomplete
-	 */
-	public final void setOAuthSetupComplete(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean oauthsetupcomplete)
-	{
-		getMendixObject().setValue(context, MemberNames.OAuthSetupComplete.toString(), oauthsetupcomplete);
 	}
 
 	/**
@@ -602,6 +648,43 @@ public class EmailAccount
 	}
 
 	/**
+	 * @return value of ComposeEmail
+	 */
+	public final java.lang.Boolean getComposeEmail()
+	{
+		return getComposeEmail(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of ComposeEmail
+	 */
+	public final java.lang.Boolean getComposeEmail(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.ComposeEmail.toString());
+	}
+
+	/**
+	 * Set value of ComposeEmail
+	 * @param composeemail
+	 */
+	public final void setComposeEmail(java.lang.Boolean composeemail)
+	{
+		setComposeEmail(getContext(), composeemail);
+	}
+
+	/**
+	 * Set value of ComposeEmail
+	 * @param context
+	 * @param composeemail
+	 */
+	public final void setComposeEmail(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean composeemail)
+	{
+		getMendixObject().setValue(context, MemberNames.ComposeEmail.toString(), composeemail);
+	}
+
+	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of OutgoingEmailConfiguration_EmailAccount
 	 */
 	public final email_connector.proxies.OutgoingEmailConfiguration getOutgoingEmailConfiguration_EmailAccount() throws com.mendix.core.CoreException
@@ -612,13 +695,15 @@ public class EmailAccount
 	/**
 	 * @param context
 	 * @return value of OutgoingEmailConfiguration_EmailAccount
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.OutgoingEmailConfiguration getOutgoingEmailConfiguration_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.OutgoingEmailConfiguration result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.OutgoingEmailConfiguration_EmailAccount.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.OutgoingEmailConfiguration.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -638,13 +723,15 @@ public class EmailAccount
 	 */
 	public final void setOutgoingEmailConfiguration_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.OutgoingEmailConfiguration outgoingemailconfiguration_emailaccount)
 	{
-		if (outgoingemailconfiguration_emailaccount == null)
+		if (outgoingemailconfiguration_emailaccount == null) {
 			getMendixObject().setValue(context, MemberNames.OutgoingEmailConfiguration_EmailAccount.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.OutgoingEmailConfiguration_EmailAccount.toString(), outgoingemailconfiguration_emailaccount.getMendixObject().getId());
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of IncomingEmailConfiguration_EmailAccount
 	 */
 	public final email_connector.proxies.IncomingEmailConfiguration getIncomingEmailConfiguration_EmailAccount() throws com.mendix.core.CoreException
@@ -655,13 +742,15 @@ public class EmailAccount
 	/**
 	 * @param context
 	 * @return value of IncomingEmailConfiguration_EmailAccount
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.IncomingEmailConfiguration getIncomingEmailConfiguration_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.IncomingEmailConfiguration result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.IncomingEmailConfiguration_EmailAccount.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.IncomingEmailConfiguration.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -681,13 +770,15 @@ public class EmailAccount
 	 */
 	public final void setIncomingEmailConfiguration_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.IncomingEmailConfiguration incomingemailconfiguration_emailaccount)
 	{
-		if (incomingemailconfiguration_emailaccount == null)
+		if (incomingemailconfiguration_emailaccount == null) {
 			getMendixObject().setValue(context, MemberNames.IncomingEmailConfiguration_EmailAccount.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.IncomingEmailConfiguration_EmailAccount.toString(), incomingemailconfiguration_emailaccount.getMendixObject().getId());
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of Pk12Certificate_EmailAccount
 	 */
 	public final email_connector.proxies.Pk12Certificate getPk12Certificate_EmailAccount() throws com.mendix.core.CoreException
@@ -698,13 +789,15 @@ public class EmailAccount
 	/**
 	 * @param context
 	 * @return value of Pk12Certificate_EmailAccount
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.Pk12Certificate getPk12Certificate_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.Pk12Certificate result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Pk12Certificate_EmailAccount.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.Pk12Certificate.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -724,13 +817,15 @@ public class EmailAccount
 	 */
 	public final void setPk12Certificate_EmailAccount(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.Pk12Certificate pk12certificate_emailaccount)
 	{
-		if (pk12certificate_emailaccount == null)
+		if (pk12certificate_emailaccount == null) {
 			getMendixObject().setValue(context, MemberNames.Pk12Certificate_EmailAccount.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Pk12Certificate_EmailAccount.toString(), pk12certificate_emailaccount.getMendixObject().getId());
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of EmailAccount_LDAPConfiguration
 	 */
 	public final email_connector.proxies.LDAPConfiguration getEmailAccount_LDAPConfiguration() throws com.mendix.core.CoreException
@@ -741,13 +836,15 @@ public class EmailAccount
 	/**
 	 * @param context
 	 * @return value of EmailAccount_LDAPConfiguration
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.LDAPConfiguration getEmailAccount_LDAPConfiguration(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.LDAPConfiguration result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.EmailAccount_LDAPConfiguration.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.LDAPConfiguration.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -767,13 +864,15 @@ public class EmailAccount
 	 */
 	public final void setEmailAccount_LDAPConfiguration(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.LDAPConfiguration emailaccount_ldapconfiguration)
 	{
-		if (emailaccount_ldapconfiguration == null)
+		if (emailaccount_ldapconfiguration == null) {
 			getMendixObject().setValue(context, MemberNames.EmailAccount_LDAPConfiguration.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EmailAccount_LDAPConfiguration.toString(), emailaccount_ldapconfiguration.getMendixObject().getId());
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of EmailAccount_OAuthProvider
 	 */
 	public final email_connector.proxies.OAuthProvider getEmailAccount_OAuthProvider() throws com.mendix.core.CoreException
@@ -784,13 +883,15 @@ public class EmailAccount
 	/**
 	 * @param context
 	 * @return value of EmailAccount_OAuthProvider
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.OAuthProvider getEmailAccount_OAuthProvider(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.OAuthProvider result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.EmailAccount_OAuthProvider.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.OAuthProvider.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -810,13 +911,15 @@ public class EmailAccount
 	 */
 	public final void setEmailAccount_OAuthProvider(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.OAuthProvider emailaccount_oauthprovider)
 	{
-		if (emailaccount_oauthprovider == null)
+		if (emailaccount_oauthprovider == null) {
 			getMendixObject().setValue(context, MemberNames.EmailAccount_OAuthProvider.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EmailAccount_OAuthProvider.toString(), emailaccount_oauthprovider.getMendixObject().getId());
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of EmailAccount_OAuthToken
 	 */
 	public final email_connector.proxies.OAuthToken getEmailAccount_OAuthToken() throws com.mendix.core.CoreException
@@ -827,13 +930,15 @@ public class EmailAccount
 	/**
 	 * @param context
 	 * @return value of EmailAccount_OAuthToken
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final email_connector.proxies.OAuthToken getEmailAccount_OAuthToken(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		email_connector.proxies.OAuthToken result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.EmailAccount_OAuthToken.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = email_connector.proxies.OAuthToken.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -853,10 +958,11 @@ public class EmailAccount
 	 */
 	public final void setEmailAccount_OAuthToken(com.mendix.systemwideinterfaces.core.IContext context, email_connector.proxies.OAuthToken emailaccount_oauthtoken)
 	{
-		if (emailaccount_oauthtoken == null)
+		if (emailaccount_oauthtoken == null) {
 			getMendixObject().setValue(context, MemberNames.EmailAccount_OAuthToken.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EmailAccount_OAuthToken.toString(), emailaccount_oauthtoken.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -878,9 +984,9 @@ public class EmailAccount
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final email_connector.proxies.EmailAccount that = (email_connector.proxies.EmailAccount) obj;
@@ -900,7 +1006,7 @@ public class EmailAccount
 	 */
 	public static java.lang.String getType()
 	{
-		return "Email_Connector.EmailAccount";
+		return entityName;
 	}
 
 	/**

@@ -25,7 +25,7 @@ public class Attachment extends system.proxies.FileDocument
 		Attachment_Email("EmailTemplate.Attachment_Email"),
 		Attachment_EmailTemplate("EmailTemplate.Attachment_EmailTemplate");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -41,14 +41,15 @@ public class Attachment extends system.proxies.FileDocument
 
 	public Attachment(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "EmailTemplate.Attachment"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected Attachment(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject attachmentMendixObject)
 	{
 		super(context, attachmentMendixObject);
-		if (!com.mendix.core.Core.isSubClassOf("EmailTemplate.Attachment", attachmentMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a EmailTemplate.Attachment");
+		if (!com.mendix.core.Core.isSubClassOf(entityName, attachmentMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 	}
 
 	/**
@@ -63,6 +64,9 @@ public class Attachment extends system.proxies.FileDocument
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static emailtemplate.proxies.Attachment initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -77,13 +81,15 @@ public class Attachment extends system.proxies.FileDocument
 
 	public static java.util.List<emailtemplate.proxies.Attachment> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<emailtemplate.proxies.Attachment> result = new java.util.ArrayList<emailtemplate.proxies.Attachment>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//EmailTemplate.Attachment" + xpathConstraint))
-			result.add(emailtemplate.proxies.Attachment.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> emailtemplate.proxies.Attachment.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of Attachment_Email
 	 */
 	public final emailtemplate.proxies.Email getAttachment_Email() throws com.mendix.core.CoreException
@@ -94,13 +100,15 @@ public class Attachment extends system.proxies.FileDocument
 	/**
 	 * @param context
 	 * @return value of Attachment_Email
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final emailtemplate.proxies.Email getAttachment_Email(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		emailtemplate.proxies.Email result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Attachment_Email.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = emailtemplate.proxies.Email.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -120,13 +128,15 @@ public class Attachment extends system.proxies.FileDocument
 	 */
 	public final void setAttachment_Email(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.Email attachment_email)
 	{
-		if (attachment_email == null)
+		if (attachment_email == null) {
 			getMendixObject().setValue(context, MemberNames.Attachment_Email.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Attachment_Email.toString(), attachment_email.getMendixObject().getId());
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of Attachment_EmailTemplate
 	 */
 	public final emailtemplate.proxies.EmailTemplate getAttachment_EmailTemplate() throws com.mendix.core.CoreException
@@ -137,13 +147,15 @@ public class Attachment extends system.proxies.FileDocument
 	/**
 	 * @param context
 	 * @return value of Attachment_EmailTemplate
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final emailtemplate.proxies.EmailTemplate getAttachment_EmailTemplate(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		emailtemplate.proxies.EmailTemplate result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Attachment_EmailTemplate.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = emailtemplate.proxies.EmailTemplate.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -163,18 +175,19 @@ public class Attachment extends system.proxies.FileDocument
 	 */
 	public final void setAttachment_EmailTemplate(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.EmailTemplate attachment_emailtemplate)
 	{
-		if (attachment_emailtemplate == null)
+		if (attachment_emailtemplate == null) {
 			getMendixObject().setValue(context, MemberNames.Attachment_EmailTemplate.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Attachment_EmailTemplate.toString(), attachment_emailtemplate.getMendixObject().getId());
+		}
 	}
 
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final emailtemplate.proxies.Attachment that = (emailtemplate.proxies.Attachment) obj;
@@ -194,7 +207,7 @@ public class Attachment extends system.proxies.FileDocument
 	 */
 	public static java.lang.String getType()
 	{
-		return "EmailTemplate.Attachment";
+		return entityName;
 	}
 
 	/**

@@ -34,7 +34,7 @@ public class EmailSettings
 		EmailSettings_OAuthProviderDetails("EmailTemplate.EmailSettings_OAuthProviderDetails"),
 		Token_EmailSettings("EmailTemplate.Token_EmailSettings");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -50,15 +50,17 @@ public class EmailSettings
 
 	public EmailSettings(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "EmailTemplate.EmailSettings"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected EmailSettings(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject emailSettingsMendixObject)
 	{
-		if (emailSettingsMendixObject == null)
+		if (emailSettingsMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("EmailTemplate.EmailSettings", emailSettingsMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a EmailTemplate.EmailSettings");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, emailSettingsMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.emailSettingsMendixObject = emailSettingsMendixObject;
 		this.context = context;
@@ -76,6 +78,9 @@ public class EmailSettings
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static emailtemplate.proxies.EmailSettings initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -90,14 +95,16 @@ public class EmailSettings
 
 	public static java.util.List<emailtemplate.proxies.EmailSettings> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<emailtemplate.proxies.EmailSettings> result = new java.util.ArrayList<emailtemplate.proxies.EmailSettings>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//EmailTemplate.EmailSettings" + xpathConstraint))
-			result.add(emailtemplate.proxies.EmailSettings.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> emailtemplate.proxies.EmailSettings.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -106,6 +113,7 @@ public class EmailSettings
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -524,6 +532,7 @@ public class EmailSettings
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of EmailSettings_OAuthProviderDetails
 	 */
 	public final emailtemplate.proxies.OAuthProviderDetails getEmailSettings_OAuthProviderDetails() throws com.mendix.core.CoreException
@@ -534,13 +543,15 @@ public class EmailSettings
 	/**
 	 * @param context
 	 * @return value of EmailSettings_OAuthProviderDetails
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final emailtemplate.proxies.OAuthProviderDetails getEmailSettings_OAuthProviderDetails(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		emailtemplate.proxies.OAuthProviderDetails result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.EmailSettings_OAuthProviderDetails.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = emailtemplate.proxies.OAuthProviderDetails.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -560,13 +571,15 @@ public class EmailSettings
 	 */
 	public final void setEmailSettings_OAuthProviderDetails(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.OAuthProviderDetails emailsettings_oauthproviderdetails)
 	{
-		if (emailsettings_oauthproviderdetails == null)
+		if (emailsettings_oauthproviderdetails == null) {
 			getMendixObject().setValue(context, MemberNames.EmailSettings_OAuthProviderDetails.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EmailSettings_OAuthProviderDetails.toString(), emailsettings_oauthproviderdetails.getMendixObject().getId());
+		}
 	}
 
 	/**
+	 * @throws com.mendix.core.CoreException
 	 * @return value of Token_EmailSettings
 	 */
 	public final emailtemplate.proxies.Token getToken_EmailSettings() throws com.mendix.core.CoreException
@@ -577,13 +590,15 @@ public class EmailSettings
 	/**
 	 * @param context
 	 * @return value of Token_EmailSettings
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final emailtemplate.proxies.Token getToken_EmailSettings(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		emailtemplate.proxies.Token result = null;
 		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Token_EmailSettings.toString());
-		if (identifier != null)
+		if (identifier != null) {
 			result = emailtemplate.proxies.Token.load(context, identifier);
+		}
 		return result;
 	}
 
@@ -603,10 +618,11 @@ public class EmailSettings
 	 */
 	public final void setToken_EmailSettings(com.mendix.systemwideinterfaces.core.IContext context, emailtemplate.proxies.Token token_emailsettings)
 	{
-		if (token_emailsettings == null)
+		if (token_emailsettings == null) {
 			getMendixObject().setValue(context, MemberNames.Token_EmailSettings.toString(), null);
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Token_EmailSettings.toString(), token_emailsettings.getMendixObject().getId());
+		}
 	}
 
 	/**
@@ -628,9 +644,9 @@ public class EmailSettings
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final emailtemplate.proxies.EmailSettings that = (emailtemplate.proxies.EmailSettings) obj;
@@ -650,7 +666,7 @@ public class EmailSettings
 	 */
 	public static java.lang.String getType()
 	{
-		return "EmailTemplate.EmailSettings";
+		return entityName;
 	}
 
 	/**
