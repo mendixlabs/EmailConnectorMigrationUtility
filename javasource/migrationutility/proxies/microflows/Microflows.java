@@ -15,7 +15,13 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 public class Microflows
 {
 	// These are the microflows for the MigrationUtility module
-	public static email_connector.proxies.EmailAccount aCT_CreateEmailAccountFromEmailSettings(IContext context, java.lang.String _userName, java.lang.String _password, java.lang.String _server, java.lang.Long _port, java.lang.String _fromAddress, java.lang.String _fromDisplayName, boolean _useSSL, boolean _useTLS, java.lang.Long _maxAttempts, boolean _useSSLCheckServerIdentity, boolean _isOAuthUsed)
+	public static void aCT_DeleteBeforeStats(IContext context, migrationutility.proxies.DataStats_Before _dataStats_Before)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("DataStats_Before", _dataStats_Before == null ? null : _dataStats_Before.getMendixObject());
+		Core.microflowCall("MigrationUtility.ACT_DeleteBeforeStats").withParams(params).execute(context);
+	}
+	public static email_connector.proxies.EmailAccount aCT_IMM_CreateEmailAccountFromEmailSettings(IContext context, java.lang.String _userName, java.lang.String _password, java.lang.String _server, java.lang.Long _port, java.lang.String _fromAddress, java.lang.String _fromDisplayName, boolean _useSSL, boolean _useTLS, java.lang.Long _maxAttempts, boolean _useSSLCheckServerIdentity, boolean _isOAuthUsed)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("UserName", _userName);
@@ -29,32 +35,33 @@ public class Microflows
 		params.put("MaxAttempts", _maxAttempts);
 		params.put("UseSSLCheckServerIdentity", _useSSLCheckServerIdentity);
 		params.put("isOAuthUsed", _isOAuthUsed);
-		IMendixObject result = (IMendixObject)Core.microflowCall("MigrationUtility.ACT_CreateEmailAccountFromEmailSettings").withParams(params).execute(context);
+		IMendixObject result = (IMendixObject)Core.microflowCall("MigrationUtility.ACT_IMM_CreateEmailAccountFromEmailSettings").withParams(params).execute(context);
 		return result == null ? null : email_connector.proxies.EmailAccount.initialize(context, result);
 	}
-	public static email_connector.proxies.OAuthProvider aCT_CreateOAuthProvider(IContext context, email_connector.proxies.EmailAccount _mappingParent, java.lang.String _clientID, java.lang.String _clientSecret)
+	public static email_connector.proxies.OAuthProvider aCT_IMM_CreateOAuthProvider(IContext context, email_connector.proxies.EmailAccount _mappingParent, java.lang.String _clientID, java.lang.String _clientSecret)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("MappingParent", _mappingParent == null ? null : _mappingParent.getMendixObject());
 		params.put("ClientID", _clientID);
 		params.put("ClientSecret", _clientSecret);
-		IMendixObject result = (IMendixObject)Core.microflowCall("MigrationUtility.ACT_CreateOAuthProvider").withParams(params).execute(context);
+		IMendixObject result = (IMendixObject)Core.microflowCall("MigrationUtility.ACT_IMM_CreateOAuthProvider").withParams(params).execute(context);
 		return result == null ? null : email_connector.proxies.OAuthProvider.initialize(context, result);
-	}
-	public static void aCT_DeleteBeforeStats(IContext context, migrationutility.proxies.DataStats_Before _dataStats_Before)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("DataStats_Before", _dataStats_Before == null ? null : _dataStats_Before.getMendixObject());
-		Core.microflowCall("MigrationUtility.ACT_DeleteBeforeStats").withParams(params).execute(context);
 	}
 	public static void aCT_MigrateEmailAccounts(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		Core.microflowCall("MigrationUtility.ACT_MigrateEmailAccounts").withParams(params).execute(context);
 	}
-	public static boolean aCT_MigrateEmailTemplates(IContext context)
+	public static java.lang.Long aCT_MigrateEmails(IContext context, email_connector.proxies.EmailTemplate _emailTemplate)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("EmailTemplate", _emailTemplate == null ? null : _emailTemplate.getMendixObject());
+		return (java.lang.Long) Core.microflowCall("MigrationUtility.ACT_MigrateEmails").withParams(params).execute(context);
+	}
+	public static boolean aCT_MigrateEmailTemplates(IContext context, migrationutility.proxies.MigrationConfig _migrationConfig)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("MigrationConfig", _migrationConfig == null ? null : _migrationConfig.getMendixObject());
 		return (java.lang.Boolean) Core.microflowCall("MigrationUtility.ACT_MigrateEmailTemplates").withParams(params).execute(context);
 	}
 	public static void aCT_MigrateErrorLog(IContext context)
