@@ -1,0 +1,25 @@
+.DS_Store
+/*.launch
+/deployment/
+/packages/
+/releases/
+/.mendix-cache/
+/.classpath
+/.project
+/*.mpr.bak
+/*.mpr.lock
+/project-settings.user.json
+/javasource/*/proxies/
+/javasource/system/
+/**/node_modules/
+!/javascriptsource/**/node_modules/
+/.idea/
+**/.idea/
+/*.iml
+[Ll]ogs/
+/*.log# Custom scripts and build artifacts
+
+# Custom scripts and build artifacts
+theme-cache/
+themesource/email_connector/prepros.config
+themesource/email_connector/web/main.css

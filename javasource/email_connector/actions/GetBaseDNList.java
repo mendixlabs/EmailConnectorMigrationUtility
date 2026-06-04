@@ -34,7 +34,7 @@ public class GetBaseDNList extends CustomJavaAction<java.util.List<IMendixObject
 	@java.lang.Override
 	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
-		this.LDAPConfiguration = __LDAPConfiguration == null ? null : email_connector.proxies.LDAPConfiguration.initialize(getContext(), __LDAPConfiguration);
+		this.LDAPConfiguration = this.__LDAPConfiguration == null ? null : email_connector.proxies.LDAPConfiguration.initialize(getContext(), __LDAPConfiguration);
 
 		// BEGIN USER CODE
 		if (this.LDAPConfiguration == null)
@@ -62,6 +62,7 @@ public class GetBaseDNList extends CustomJavaAction<java.util.List<IMendixObject
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

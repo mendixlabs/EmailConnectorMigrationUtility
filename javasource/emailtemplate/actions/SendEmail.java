@@ -74,17 +74,19 @@ public class SendEmail extends CustomJavaAction<java.lang.Boolean>
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.AttachmentList = new java.util.ArrayList<system.proxies.FileDocument>();
-		if (__AttachmentList != null)
-			for (IMendixObject __AttachmentListElement : __AttachmentList)
-				this.AttachmentList.add(system.proxies.FileDocument.initialize(getContext(), __AttachmentListElement));
+		this.AttachmentList = java.util.Optional.ofNullable(this.__AttachmentList)
+			.orElse(java.util.Collections.emptyList())
+			.stream()
+			.map(__AttachmentListElement -> system.proxies.FileDocument.initialize(getContext(), __AttachmentListElement))
+			.collect(java.util.stream.Collectors.toList());
 
-		this.HeaderList = new java.util.ArrayList<emailtemplate.proxies.Header>();
-		if (__HeaderList != null)
-			for (IMendixObject __HeaderListElement : __HeaderList)
-				this.HeaderList.add(emailtemplate.proxies.Header.initialize(getContext(), __HeaderListElement));
+		this.HeaderList = java.util.Optional.ofNullable(this.__HeaderList)
+			.orElse(java.util.Collections.emptyList())
+			.stream()
+			.map(__HeaderListElement -> emailtemplate.proxies.Header.initialize(getContext(), __HeaderListElement))
+			.collect(java.util.stream.Collectors.toList());
 
-		this.EmailSettings = __EmailSettings == null ? null : emailtemplate.proxies.EmailSettings.initialize(getContext(), __EmailSettings);
+		this.EmailSettings = this.__EmailSettings == null ? null : emailtemplate.proxies.EmailSettings.initialize(getContext(), __EmailSettings);
 
 		// BEGIN USER CODE
 
@@ -189,6 +191,7 @@ public class SendEmail extends CustomJavaAction<java.lang.Boolean>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

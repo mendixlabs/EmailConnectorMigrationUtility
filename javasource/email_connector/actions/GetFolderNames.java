@@ -36,7 +36,7 @@ public class GetFolderNames extends CustomJavaAction<java.util.List<IMendixObjec
 	@java.lang.Override
 	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
-		this.MxEmailAccount = __MxEmailAccount == null ? null : email_connector.proxies.EmailAccount.initialize(getContext(), __MxEmailAccount);
+		this.MxEmailAccount = this.__MxEmailAccount == null ? null : email_connector.proxies.EmailAccount.initialize(getContext(), __MxEmailAccount);
 
 		// BEGIN USER CODE
         if (this.MxEmailAccount == null)
@@ -57,6 +57,7 @@ public class GetFolderNames extends CustomJavaAction<java.util.List<IMendixObjec
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()
