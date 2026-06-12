@@ -9,9 +9,11 @@ This utility will assist you in migrating only data from the [Email with templat
 - Latest [Encryption](https://marketplace.mendix.com/link/component/1011) module.
 - Latest [Mx Reflection](https://marketplace.mendix.com/link/component/69) module.
 
+### Release
+- The latest release (v2.0.1) for MX8 is available at: https://github.com/mendixlabs/EmailConnectorMigrationUtility/releases/tag/2.0.1
+
 ### Pre-rerequisites 
-- The latest MX8 module can be found in the `marketplace` directory of this repository.
-- Latest release v2.0.1 can also be found in https://github.com/mendixlabs/EmailConnectorMigrationUtility/releases
+- The latest MX8 module is available in the `marketplace` directory of this repository and can also be downloaded from the Releases section. https://github.com/mendixlabs/EmailConnectorMigrationUtility/releases
 - This utility will help migrate only data.
 - App on MX 7 should first migrate to MX 8 LTS 
 - App should be on at least Mendix 8 LTS
